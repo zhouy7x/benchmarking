@@ -28,6 +28,8 @@ machine = {
 
     }
 
+BENCH_DOC = "/home/benchmark/benchmarking/experimental/benchmarks/"
+
 if not BENCHMARK or not COMMIT_ID:
     usage()
     status = False
@@ -39,17 +41,19 @@ else:
 
 def rsync_to_test_machine():
     path_list = [
-        ("/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node/node-v12.0.0-pre/", "/home/benchmark/"),
+        ("/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node/node-v12.0.0-pre/", "/home/benchmark/node/"),
     ]
 
     for path in path_list:
         rsync_cmd = "rsync -r %s %s@%s:%s" % (path[0], machine["user"], machine["host"], path[1])
         if not os.system(rsync_cmd):
             print "rsync succeed!"
-        else:
-            return 1
 
-    return 0
+
+def run(bench):
+    bench_path = BENCH_DOC + bench
+    cmd = "ssh %s@%s \"cd %s ; bash run.sh\" "
+
 
 def main():
     # run_3_bench_list = ['octane']
@@ -59,13 +63,9 @@ def main():
         return
 
     # rsync node and benchmarks to test machine.
-    if rsync_to_test_machine():
-        print "rsync error, exit!"
-        return
+    rsync_to_test_machine()
 
-    # remote run test benchmark.
-
-
+    run(BENCHMARK)
 
 
 if __name__ == '__main__':

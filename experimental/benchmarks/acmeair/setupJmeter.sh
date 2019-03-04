@@ -3,21 +3,21 @@ JMETER_VERSION=apache-jmeter-3.0
 DIR=`dirname $0`
 CURRENT_DIR=`cd $DIR;pwd`
 
-mkdir -p $CURRENT_DIR/node/Jmeter_setup
-pushd $CURRENT_DIR/node/Jmeter_setup
-#wget https://archive.apache.org/dist/jmeter/binaries/${JMETER_VERSION}.zip
+mkdir /node/Jmeter_setup
+pushd /node/Jmeter_setup
+wget https://archive.apache.org/dist/jmeter/binaries/${JMETER_VERSION}.zip
 unzip ${JMETER_VERSION}.zip
 git clone https://github.com/acmeair/acmeair-driver
 pushd acmeair-driver
 	git checkout f4ee2b451cc381b7539601d1b741d8b01684fe2b
 popd
 
-#wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/json-simple/json-simple-1.1.1.jar
-pushd $CURRENT_DIR/node/Jmeter_setup/acmeair-driver
+wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/json-simple/json-simple-1.1.1.jar
+pushd /node/Jmeter_setup/acmeair-driver
 	./gradlew build
-	cp acmeair-jmeter/build/libs/acmeair-jmeter-*-SNAPSHOT.jar  $CURRENT_DIR/node/Jmeter_setup/${JMETER_VERSION}/lib/ext/
+	cp acmeair-jmeter/build/libs/acmeair-jmeter-*-SNAPSHOT.jar  /node/Jmeter_setup/${JMETER_VERSION}/lib/ext/
 popd
-cp json-simple-1.1.1.jar $CURRENT_DIR/node/Jmeter_setup/${JMETER_VERSION}/lib/ext/
+cp json-simple-1.1.1.jar /node/Jmeter_setup/${JMETER_VERSION}/lib/ext/
 git clone https://github.com/acmeair/acmeair-nodejs
 pushd acmeair-nodejs
 git checkout 009bd063700089a2680b696336d87bd97e412f0e
@@ -28,6 +28,6 @@ popd
 mv acmeair-nodejs ../
 mv ${JMETER_VERSION}/*  ../Jmeter
 popd
-mkdir $CURRENT_DIR/node/mongo3
-cp ${CURRENT_DIR}/mongodb.sh $CURRENT_DIR/node/mongo3/
+mkdir /node/mongo3
+cp ${CURRENT_DIR}/mongodb.sh /node/mongo3/
 

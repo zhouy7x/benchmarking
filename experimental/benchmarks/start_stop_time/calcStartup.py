@@ -10,11 +10,8 @@ ITERATIONS = 50
 def main():
     # time -o total_time -f "%e" sh $SCRIPT_DIR/startNode.sh $ITERATIONS
     cmd = "time -p bash startNode.sh %s 2>&1" % ITERATIONS
-    TOTAL = os.popen(cmd).readline().split()
-    # TOTAL = os.popen(cmd).read()
-    # print(TOTAL)
-    TOTAL = TOTAL[1]
-
+    TOTAL = os.popen(cmd).readline().split()[1]
+    #TOTAL = os.popen(cmd).readline()
     print("TOTAL=%s" % TOTAL)
     cmd3 = "echo %s > total_time" % TOTAL
     if os.system(cmd3):

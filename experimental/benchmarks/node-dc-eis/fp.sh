@@ -2,7 +2,7 @@
 
 function getFootprint() {
 if [ -z $1 ]; then
-	PIDS=`ps -ef|grep "node "|grep server-cluster|grep -v grep|grep -v tee|grep -v sh|awk {'print $2'}`
+	PIDS=`ps -ef|grep /node|grep -v grep|grep -v tee|grep -v sh|awk {'print $2'}`
 else
 	PIDS=$1
 fi

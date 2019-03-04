@@ -1,0 +1,49 @@
+<head>
+<script src="lib/Chart.js"></script>
+<script src="lib/Chart.Scatter.js"></script>
+<script>
+
+function createChart() {
+
+  var options = { scaleType: 'date',
+    scaleDateFormat: 'd/m/yy',
+    scaleTimeFormat: ' ',
+    datasetStroke: false,
+    scaleShowLabels: true,
+    scaleLabel: '<%=value%> kb',
+    showScale: true,
+    animation: false,
+    backgroundColor: 'white'
+  }
+
+  var data1 = new Array();
+
+
+  var dataset1 = {
+    label: "node-dc-eis footprint before load[lower is better](master)",
+    pointColor: "blue",
+    data: data1
+  }
+
+
+  data1.push({
+    x: new Date(1551338459000),
+    y: 51200
+  });
+
+
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var myLineChart = new Chart(ctx).Scatter([dataset1], options);
+};
+</script>
+
+</head>
+<body onload=createChart();>
+<div id="legend">
+  <table>
+    <tr><td><font color="blue">node-dc-eis footprint before load[lower is better](master)</td><td>&nbsp;</td><td><font color="blue">Latest result: 51200</font></td></tr>
+
+  </table>
+</div>
+<canvas id="myChart" width="800" height="400"></canvas>
+</body>

@@ -5,6 +5,14 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Results
+database
+results/
+
+#Python
+.idea/
+*.pyc
+
 # Runtime data
 pids
 *.pid

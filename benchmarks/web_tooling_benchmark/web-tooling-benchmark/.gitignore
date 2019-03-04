@@ -1,0 +1,3 @@
+build/*.js
+dist/
+node_modules/

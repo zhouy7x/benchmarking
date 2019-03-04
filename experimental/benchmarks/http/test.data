@@ -1,0 +1,77 @@
+"binary", "filename", "configuration", "rate", "time"
+Richards: 23575
+DeltaBlue: 57589
+Crypto: 31048
+RayTrace: 73629
+EarleyBoyer: 47383
+RegExp: 6079
+Splay: 20397
+SplayLatency: 41615
+NavierStokes: 34952
+PdfJS: 26801
+Mandreel: 31019
+MandreelLatency: 76695
+Gameboy: 51596
+CodeLoad: 19643
+Box2D: 67367
+zlib: 66615
+Typescript: 40920
+----
+Score (version 9): 36200
+Richards: 23564
+DeltaBlue: 59024
+Crypto: 31078
+RayTrace: 73629
+EarleyBoyer: 47002
+RegExp: 6423
+Splay: 20438
+SplayLatency: 41196
+NavierStokes: 34439
+PdfJS: 27013
+Mandreel: 32494
+MandreelLatency: 83087
+Gameboy: 47272
+CodeLoad: 19637
+Box2D: 67572
+zlib: 66470
+Typescript: 43502
+----
+Score (version 9): 36537
+Richards: 23649
+DeltaBlue: 57900
+Crypto: 31099
+RayTrace: 71261
+EarleyBoyer: 45895
+RegExp: 6320
+Splay: 20255
+SplayLatency: 36956
+NavierStokes: 34726
+PdfJS: 27876
+Mandreel: 31853
+MandreelLatency: 81725
+Gameboy: 51698
+CodeLoad: 19650
+Box2D: 67098
+zlib: 66702
+Typescript: 43004
+----
+Score (version 9): 36265
+Richards: 23709
+DeltaBlue: 58217
+Crypto: 31297
+RayTrace: 73999
+EarleyBoyer: 45300
+RegExp: 6475
+Splay: 20291
+SplayLatency: 39209
+NavierStokes: 34804
+PdfJS: 26298
+Mandreel: 32463
+MandreelLatency: 83087
+Gameboy: 52263
+CodeLoad: 19712
+Box2D: 64869
+zlib: 65083
+Typescript: 46450
+----
+Score (version 9): 36558

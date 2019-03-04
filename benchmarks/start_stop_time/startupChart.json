@@ -1,0 +1,9 @@
+{
+ "benchid": 1,
+ "name": "Start + Stop Time[lower is better]" ,
+ "template": "../common/common_template1.html.base",
+ "units": "us",
+ "outputBase" : "start_stop",
+ "streams": [ {"streamid": 1, "name": "master", "color": "blue"} ],
+ "enabled": true
+}

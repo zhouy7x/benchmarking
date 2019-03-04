@@ -1,0 +1,10 @@
+{
+ "benchid": 9,
+ "name": "octane Geomean [higher is better]" ,
+ "template": "../common/common_template1.html.base",
+ "units": "Geomean",
+ "outputBase" : "octane",
+ "streams": [ {"streamid": 1, "name": "master", "color": "blue" }
+            ],
+ "enabled": true
+}

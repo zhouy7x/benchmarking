@@ -1,0 +1,6 @@
+{
+  "host": "localhost",
+  "user": "bench1",
+  "password": "mkk",
+  "database": "benchdb"
+}

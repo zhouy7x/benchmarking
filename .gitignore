@@ -8,6 +8,7 @@ yarn-error.log*
 # Results
 database
 results/
+mongodb.out
 
 #Python
 .idea/

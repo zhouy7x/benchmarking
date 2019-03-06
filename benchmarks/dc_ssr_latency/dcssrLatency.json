@@ -1,0 +1,10 @@
+{
+ "benchid": 16,
+ "name": "node-dc-ssr Latency[lower is better]" ,
+ "template": "../common/common_template1.html.base",
+ "units": "ms",
+ "outputBase" : "dcssr_latency",
+ "streams": [ {"streamid": 1, "name": "master", "color": "blue" }
+            ],
+ "enabled": true
+}

@@ -9,6 +9,9 @@ yarn-error.log*
 database
 results/
 mongodb.out
+tools/chartGen/*.html
+www/htmls/*
+*.png
 
 #Python
 .idea/

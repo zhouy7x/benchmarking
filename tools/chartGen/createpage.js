@@ -37,7 +37,7 @@ var generatePage = function(benchConfigFile, nowDone) {
   async.eachSeries(chartConfig.streams,
     function iterator(item, callbackDone) {
       // get the data from the database
-      con.query('SELECT time,value FROM benchresults WHERE streamid=' + item.streamid +
+      con.query('SELECT cset,time,value FROM benchresults WHERE streamid=' + item.streamid +
                 ' AND benchid=' + chartConfig.benchid , function(err, rows, fields) {
         if (err) {
           console.log('failed to run query db:' + err);

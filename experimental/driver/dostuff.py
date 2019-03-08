@@ -23,7 +23,7 @@ args = parser.parse_args()
 BENCHMARK = args.benchmark
 COMMIT_ID = args.commit_id
 machine = {
-    "host": "vox.sh.intel.com",
+    "host": "v8onxeon-8180.sh.intel.com",
     "user": "benchmark",
 
     }
@@ -51,6 +51,16 @@ def rsync_to_test_machine():
 
     return 0
 
+
+def run():
+    cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; bash run.sh;\"" % (machine['user'], machine['host'], BENCHMARK)
+    print cmd_string
+    if not os.system(cmd_string):
+        print "run test succeed!"
+    else:
+        print "run test failed!"
+
+
 def main():
     # run_3_bench_list = ['octane']
     bench_list = ['octane', 'web_tooling_benchmark', 'start_stop_time', 'node-dc-eis', 'node-dc-ssr']
@@ -59,13 +69,12 @@ def main():
         return
 
     # rsync node and benchmarks to test machine.
-    if rsync_to_test_machine():
-        print "rsync error, exit!"
-        return
+    # if rsync_to_test_machine():
+    #     print "rsync error, exit!"
+    #     return
 
     # remote run test benchmark.
-
-
+    run()
 
 
 if __name__ == '__main__':

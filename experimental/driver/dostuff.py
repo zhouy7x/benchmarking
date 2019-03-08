@@ -2,6 +2,7 @@
 import os
 import sys
 import argparse
+import time
 from collections import namedtuple
 
 status = False
@@ -15,11 +16,12 @@ def usage():
 
 parser = argparse.ArgumentParser(description='manual to this script')
 parser.add_argument('--benchmark', type=str, default=None)
+parser.add_argument('--branch', type=str, default="master")
 parser.add_argument('--commit-id', type=str, default=None)
 parser.add_argument('--config', type=str, default=None)  # test machine config.
 
 args = parser.parse_args()
-
+BRANCH = args.branch
 BENCHMARK = args.benchmark
 COMMIT_ID = args.commit_id
 machine = {
@@ -78,5 +80,6 @@ def main():
 
 
 if __name__ == '__main__':
+    time.sleep(3)
     if status:
         main()

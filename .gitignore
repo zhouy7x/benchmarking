@@ -10,7 +10,7 @@ database
 results/
 mongodb.out
 tools/chartGen/*.html
-www/htmls/*
+www/htmls/*.html
 *.png
 
 #Python

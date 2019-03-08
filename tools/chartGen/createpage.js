@@ -11,7 +11,7 @@ var dbConfig = require('./dbconfig.json');
 var createData = function(streamid, data) {
   var htmlDataArray = [];
   for (i = 0; i < data.length; i++) {
-    htmlDataArray[i] =  '  data' + streamid + '.push({\n    x: new Date('+ data[i].time * 1000 + '),\n    y: ' + data[i].value + '\n  });\n';
+    htmlDataArray[i] =  '  data' + streamid + '.push({\n    x: new Date('+ data[i].time * 1000 + '),\n    y: ' + data[i].value  + ',\n    c: \"' + data[i].cset + '\"\n  });\n';
   }
   return htmlDataArray.join("");
 }

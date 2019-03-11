@@ -8,11 +8,7 @@ from collections import namedtuple
 status = False
 
 def usage():
-    print """
-    ERROR: Must set config "benchmark" & "commit-id"! 
-    e.g. python dostuff.py --benchmark=xxxxx --commit-id=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    Exit!
-    """
+    print parser.format_usage()
 
 parser = argparse.ArgumentParser(description='manual to this script')
 parser.add_argument('--benchmark', type=str, default=None)
@@ -27,7 +23,6 @@ COMMIT_ID = args.commit_id
 machine = {
     "host": "v8onxeon-8180.sh.intel.com",
     "user": "benchmark",
-
     }
 
 if not BENCHMARK or not COMMIT_ID:
@@ -80,6 +75,6 @@ def main():
 
 
 if __name__ == '__main__':
-    time.sleep(3)
+    time.sleep(1)
     if status:
         main()

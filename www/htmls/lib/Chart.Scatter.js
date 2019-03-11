@@ -660,17 +660,17 @@
 			this.points = [];
 		};
 
-		datasetCtr.prototype.addPoint = function (x, y, r) {
+		datasetCtr.prototype.addPoint = function (x, y, c, r) {
 
 			// default size
 			r = arguments.length < 3 ? 1 : r;
 
 			var point = this._createNewPoint();
-			this._setPointData(point, x, y, r);
+			this._setPointData(point, x, y, c, r);
 			this.points.push(point);
 		};
 
-		datasetCtr.prototype.setPointData = function (index, x, y, r) {
+		datasetCtr.prototype.setPointData = function (index, x, y, c, r) {
 
 			// default size
 			r = arguments.length < 4 ? 1 : r;
@@ -679,7 +679,7 @@
 
 			if (point) {
 
-				this._setPointData(point, x, y, r);
+				this._setPointData(point, x, y, c, r);
 			}
 		};
 
@@ -712,14 +712,17 @@
 			});
 		};
 
-		datasetCtr.prototype._setPointData = function (point, x, y, r) {
+		datasetCtr.prototype._setPointData = function (point, x, y,c, r) {
 
 			var formattedArg = this.scale.argToString(+x),
 				formattedValue = +y + "",
+				formattedCset = +c + "",
 				formattedSize = +r + "";
 
 			point.arg = +x;
 			point.value = +y;
+			point.cset = c;
+			console.log(point.cset);
 			point.size = +r;  // for use in templates
 
 			point.argLabel = helpers.template(this.scaleArgLabel, { value: formattedArg }),
@@ -757,7 +760,7 @@
 
 				helpers.each(dataset.data, function (dataPoint) {
 
-					datasetObject.addPoint(dataPoint.x, dataPoint.y, dataPoint.r || 1);
+					datasetObject.addPoint(dataPoint.x, dataPoint.y, dataPoint.c, dataPoint.r || 1);
 				});
 
 			}, this);

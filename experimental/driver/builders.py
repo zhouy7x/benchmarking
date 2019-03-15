@@ -19,6 +19,7 @@ LOG_PATH = "/home/benchmark/logs"
 # def usage():
 #     print parser.format_usage()
 
+
 def checkout_branch():
     cmd = "git checkout %s" % BRANCH
     print cmd
@@ -90,7 +91,7 @@ def main():
         if status:
             if 'ok' == build_node():
                 print "build node succeed!"
-                return
+                return COMMIT_ID
         print "build node failed!"
 
 

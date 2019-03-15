@@ -2,6 +2,7 @@
 import os
 import argparse
 import time
+import builders
 
 
 def usage():
@@ -47,8 +48,11 @@ else:
         status = False
     else:
         print "BENCHMARK = %s" % BENCHMARK
-        print "BRANCH = %s" % BRANCH
-        print "commit-id = %s" % COMMIT_ID
+    print "BRANCH = %s" % BRANCH
+    
+if not COMMIT_ID:
+    COMMIT_ID = builders.get_latest_commit_id()
+print "commit-id = %s" % COMMIT_ID
 
 
 def rsync_to_test_machine(src, dest):

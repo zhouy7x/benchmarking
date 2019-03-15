@@ -6,10 +6,19 @@ file_name = "report.temp"
 postit_dir = "/home/benchmark/benchmarking/tools/postResults"
 benchid_dict = {
     'require.cached': 4,
-    'require.new': 3
+    'require.new': 3,
+    'webtooling': 12,
+    'octane': 9,
 }
 streamid_dict = {
     'master': 1,
+    '4.x': 2,
+    '0.12.x': 3,
+    '6.x': 4,
+    '7.x': 5,
+    '8.x': 6,
+    'canary': 7,
+    '10.x': 8,
 }
 
 def usage():
@@ -32,18 +41,18 @@ if __name__ == '__main__':
         with open(file_name) as f:
             data = f.readlines()
             # print data
-        data = map(lambda x: x[:x.rfind('.')].split(','), data)
-        print data
-        # for i in data:
-        #     print int(i[1][:i[1].find('.')])
-        os.chdir(postit_dir)
-        for i in data:
-            if i[0] not in benchid_dict:
-                print "Unknown bench name: %s\n Exit." % i[0]
-                break
-            cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[i[0]], i[1], COMMIT_ID)
+        if "Score" in data[-1]:
+            bench_name = 'octane'
+            res = int(data[-1].split()[-1])
+            print res
+
+            os.chdir(postit_dir)
+
+            cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[bench_name], res, COMMIT_ID)
             print cmd
             if 'ok' in os.popen(cmd).read():
-                print 'post data %s succeed!' % str(i)
+                print 'post data %s succeed!' % bench_name
             else:
-                print 'post data %s failed!' % str(i)
+                print 'post data %s failed!' % bench_name
+        else:
+            print "do not find data."

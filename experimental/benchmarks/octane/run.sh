@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node octane.js
+$NODE octane.js | tee report.temp

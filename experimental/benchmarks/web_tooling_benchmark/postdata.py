@@ -11,6 +11,13 @@ benchid_dict = {
 }
 streamid_dict = {
     'master': 1,
+    '4.x': 2,
+    '0.12.x': 3,
+    '6.x': 4,
+    '7.x': 5,
+    '8.x': 6,
+    'canary': 7,
+    '10.x': 8,
 }
 
 def usage():

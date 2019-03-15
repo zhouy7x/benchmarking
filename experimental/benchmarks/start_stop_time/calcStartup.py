@@ -2,7 +2,7 @@
 import os
 from sys import argv
 
-ITERATIONS = 50
+ITERATIONS = 500
 NODE = argv[1] if argv[1:] else "$HOME/node/bin/node"
 
 # extract path for script we assume startNode.sh is in the

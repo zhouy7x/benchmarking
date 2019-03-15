@@ -1,0 +1,7 @@
+#!/bin/bash
+
+./configure  > ${LOG_PATH}/node-build.log
+make -j10  >> {LOG_PATH}/node-build.log
+
+rm -rf out/node-v12.0.0-pre/bin/node
+mv out/Release/node out/node-v12.0.0-pre/bin

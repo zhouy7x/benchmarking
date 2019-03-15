@@ -12,9 +12,11 @@ FP_LOG=$LOGDIR_TEMP/footprint_output.log
 for SERVER_PID in $PIDS
 do
 				FOOTPRINT=`ps -p ${SERVER_PID} -o rss,vsz,comm,pid | tail -n 1 | awk '{ print $1 }'`
+				echo "FOOTPRINT: ${FOOTPRINT}" >>  $FP_LOG
 				HPTOTAL=`cat /proc/meminfo | grep ^HugePages | sed 's/HugePages.*: *//g' | head -n 1`
 				HPFREE=` cat /proc/meminfo | grep ^HugePages | sed 's/HugePages.*: *//g' | head -n 2 | tail -n 1`
 				HPRESVD=` cat /proc/meminfo | grep ^HugePages | sed 's/HugePages.*: *//g' | head -n 3 | tail -n 1`
+				echo "HPTOTAL: ${HPTOTAL}, HPFREE: ${HPFREE}, HPRESVD: ${HPRESVD}." >> $FP_LOG
 				let HPINUSE=$HPTOTAL-$HPFREE-$HPPREINUSE
 				echo "HPs in use by node: ${HPINUSE}">>$FP_LOG
 				HPSIZE=`cat /proc/meminfo | grep ^Hugepagesize | sed 's/[a-zA-Z :]*//g'`
@@ -31,6 +33,6 @@ do
 				echo "SMAPS_RSS ${SERVER_PID}: ${SMAPS_RSS}">>$FP_LOG
 				SMAPS_PSS=`grep Pss /proc/${SERVER_PID}/smaps | awk '{x+=$2} END {print x}'`
 				echo "SMAPS_PSS ${SERVER_PID}: ${SMAPS_PSS}" >>$FP_LOG
-echo -n "${FOOTPRINT} "
+echo -n "${FOOTPRINT}"
 done
 }

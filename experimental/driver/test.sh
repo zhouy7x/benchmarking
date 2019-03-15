@@ -27,14 +27,17 @@ echo $MACHINE_THREADS
 optional MACHINE_THREADS $getMACHINE_THREADS
 optional RUNS 3
 
+# 1. build a node.
 
-# download node git repo.
+
+# 1.1 download node git repo.
 #pushd /home/benchmark/benchmarking/experimental/benchmarks/community-benchmark
 #rm -rf node
 #git clone http://github.com/nodejs/node.git
 
+#check if node updated.
 
-
+: '
 if [ -e /tmp/v8onxeon-daemon ]
 then
   echo "v8onxeon: Already running"
@@ -48,12 +51,15 @@ trap "kill 0" EXIT
 python print_env.py
 
 
-#check if node updated.
+count=0
+commit=''
+
 if [ -e /tmp/v8onxeon ]
 then
     echo "v8onxeon: /tmp/v8onxeon lock in place"
     sleep 1
 else
+    hasUpdate="false"
 
     # First, check node update
     pushd /home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node
@@ -65,30 +71,44 @@ else
         echo "v8onxeon: no update"
     else
 
-        python dostuff.py --commit-id=$COMMIT-ID
+        hasUpdate="true"
+        # reset node.
 
-        # build node.
-        pwd
-        python build_node.py --commit-id=$COMMIT-ID
-
-            git reset --hard -q $COMMIT-ID | tee reset-node.log
-
+            git reset --hard -q $COMMIT-ID
             git log -1 --pretty=short
 
 
             #build node.
-            TODO
-
-            #dostuff
 
 
 
-rm /tmp/awfy-daemon-v8
+            ./configure  > ../node-build.log
+            make -j${MACHINE_THREADS}  >> ../node-build.log
+            rm -rf out/node-v12.0.0-pre/bin/node
+            mv out/Release/node out/node-v12.0.0-pre/bin
+
+            sleep 5s
+
+
+            # run benchmarks
+            pushd /home/benchmark/benchmarking/experimental/benchmarks/driver
+
+            STARTT=$(date +%s)
+
+            # run benchmark
+            fileName=output`date +%d%m%y-%H%M%S`.csv
+            BENCHMARK=octane
+            resultFile=result/$BENCHMARK/$fileName
+
+            rm -rf $resultFile
+            echo "Output will be saved to $resultFile"
+            pwd
+
+            for ((i=1;i<=$RUNS;i++));
+            do
+                ./node benchmark/$CATEGORY/$CATEGORY.js | tee -a $fileName
+            done
 
 
 
-
-
-
-
-
+'

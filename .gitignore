@@ -12,6 +12,7 @@ mongodb.out
 tools/chartGen/*.html
 www/htmls/*.html
 *.png
+report.*.json
 
 #Python
 .idea/

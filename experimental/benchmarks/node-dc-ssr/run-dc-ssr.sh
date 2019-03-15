@@ -18,7 +18,6 @@ NODEDCSSR_DIR=${WORKLOAD_DIR}/Node-DC-SSR-electrode
 MONGO_DIR=${RESOURCE_DIR}
 
 NODE_ROOT=$HOME/node
-#export NODE_ENV=production
 
 EXIT_STATUS=0
 
@@ -126,9 +125,9 @@ function check_if_node_exists() {
   if [ -z $NODE ]; then
     NODE=`which node`
   else
-    echo "ERROR: Could not find a 'node' executable. Please set the NODE environment variable or update the PATH."
-    echo "node is not here: $NODE"
-    exit 1
+    #echo "ERROR: Could not find a 'node' executable. Please set the NODE environment variable or update the PATH."
+    echo "node is here: $NODE"
+    #exit 1
   fi
   echo -e "node: $NODE"
   echo -e "NODE VERSION:"

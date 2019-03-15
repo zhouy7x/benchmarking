@@ -370,11 +370,11 @@ echo "SUMFILE is: ${SUMLOG}"
 echo -e "\n##BEGIN $TEST_NAME OUPTUT $(date)\n" 2>&1 | tee -a $SUMLOG
 echo metric throughput $(cat $RESULTSLOG | grep ^Throughput| uniq | cut -d'=' -f2) 2>&1 | tee -a $SUMLOG
 echo metric latency $(cat $RESULTSLOG | grep "Response time 99 percentile" | cut -d'=' -f2) 2>&1 | tee -a $SUMLOG
-echo mv $RESULTSLOG $LOGDIR_TEMP/$LOGDIR_PREFIX
-
 echo "metric pre footprint $pre"
 echo "metric post footprint $post"
 echo "metric footprint increase $difference"
+echo mv $RESULTSLOG $LOGDIR_TEMP/$LOGDIR_PREFIX
+
 echo -e "\n## TEST COMPLETE ##\n" 2>&1 | tee -a $SUMLOG
 echo -e "\n## END $TEST_NAME OUTPUT $(date)\n\n" 2>&1 | tee -a $SUMLOG
 

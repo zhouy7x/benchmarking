@@ -55,18 +55,39 @@ if __name__ == '__main__':
         with open(file_name) as f:
             data = f.readlines()
             # print data
-        data = map(lambda x: x[:x.rfind('.')].split(','), data)
-        print data
-        # for i in data:
-        #     print int(i[1][:i[1].find('.')])
+
         os.chdir(postit_dir)
         for i in data:
-            if i[0] not in benchid_dict:
-                print "Unknown bench name: %s\n Exit." % i[0]
-                break
-            cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[i[0]], i[1], COMMIT_ID)
-            print cmd
-            if 'ok' in os.popen(cmd).read():
-                print 'post data %s succeed!' % str(i)
-            else:
-                print 'post data %s failed!' % str(i)
+            """
+            metric throughput 48.05 req/sec
+            metric latency 6.257 sec
+            metric pre footprint 48472
+            metric post footprint 40644
+            """
+            bench_res_to_key = {
+                'metric throughput': 'dc ssr throughput',
+                'metric latency': 'dc ssr latency',
+                'metric pre footprint': 'dc ssr pre footprint',
+                'metric post footprint': 'dc ssr post footprint',
+            }
+            for name, key in bench_res_to_key.iteritems():
+                if name in i:
+                    # print i
+                    try:
+                        value = float(i.split()[-2])
+                        if name == 'metric latency':
+                            value = int(value * 1000)
+                        else:
+                            value = int(value)
+                    except Exception as e:
+                        # print e
+                        value = int(i.split()[-1])
+
+                    # print (key, value)
+
+                    cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[key], value, COMMIT_ID)
+                    print cmd
+                    if 'ok' in os.popen(cmd).read():
+                        print 'post data %s succeed!' % str(i)
+                    else:
+                        print 'post data %s failed!' % str(i)

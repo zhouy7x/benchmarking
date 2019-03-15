@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # run bench
-bash run-dc-eis.sh
+bash run-dc-eis.sh | tee report.temp
 
-# clean data and post to server
-python postdata.py
 

@@ -27,7 +27,7 @@ machine = {
 benchs = [
     "octane",
     "web_tooling_benchmark",
-    "startup",
+    # "startup",
     "start_stop_time",
     "node-dc-ssr",
     "node-dc-eis",
@@ -67,7 +67,8 @@ def rsync_to_test_machine(src, dest):
 
 
 def run(bench, node):
-    cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; NODE=%s bash run.sh ;\"" % (machine['user'], machine['host'], bench, node)
+    cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
+        NODE=%s bash run.sh ;\"" % (machine['user'], machine['host'], bench, node)
     print cmd_string
     if not os.system(cmd_string):
         print "run test succeed!"
@@ -156,5 +157,5 @@ def main():
 if __name__ == '__main__':
     time.sleep(1)
     if status:
-        if "all over." in main():
+        if "all over." == main():
             print "### all over. ###"

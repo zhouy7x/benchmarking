@@ -47,7 +47,7 @@ def get_latest_commit_id():
 
 
 def build_node():
-    cmd = "./configure  > %s/node-build.log 2>&1 && make -j10 >> %s/node-build.log 2>&1" % (LOG_PATH, LOG_PATH)
+    cmd = "./configure  > %s/node-build.log 2>&1 && make  >> %s/node-build.log 2>&1" % (LOG_PATH, LOG_PATH)
     print cmd
     if not os.system(cmd):
         with open("%s/node-build.log" % LOG_PATH) as f:

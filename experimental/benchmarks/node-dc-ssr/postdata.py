@@ -88,6 +88,6 @@ if __name__ == '__main__':
                     cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[key], value, COMMIT_ID)
                     print cmd
                     if 'ok' in os.popen(cmd).read():
-                        print 'post data %s succeed!' % str(i)
+                        print 'post data %s succeed!' % str((key, value))
                     else:
-                        print 'post data %s failed!' % str(i)
+                        print 'post data %s failed!' % str((key, value))

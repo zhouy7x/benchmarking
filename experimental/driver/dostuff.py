@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import os
-import sys
 import argparse
 import time
 
@@ -9,16 +8,18 @@ def usage():
     print parser.format_usage()
 
 
-parser = argparse.ArgumentParser(description='manual to this script')
+parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
 parser.add_argument('--benchmark', type=str, default=None)
 parser.add_argument('--branch', type=str, default="master")
 parser.add_argument('--commit-id', type=str, default=None)
+parser.add_argument('--postdata', type=bool, default=False)
 parser.add_argument('--config', type=str, default=None)  # test machine config.
 
 args = parser.parse_args()
 BRANCH = args.branch
 BENCHMARK = args.benchmark
 COMMIT_ID = args.commit_id
+POSTDATA = args.postdata
 machine = {
     "host": "v8onxeon-8180.sh.intel.com",
     "user": "benchmark",
@@ -89,9 +90,19 @@ def build_node():
         return 1
 
 
+def postdata(bench, branch, commit_id):
+    cmd = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
+        python postdata.py --branch=%s --commit-id=%s;\"" % (machine['user'], machine['host'], bench, branch, commit_id)
+    print cmd
+    if 'failed' not in os.popen(cmd).read():
+        print "post data succeed!"
+    else:
+        print "post data failed!"
+
+
 def main():
     # 1. build node.
-    print "Now build node..."
+    print "### now build node..."
     if build_node():
         print "build node failed!\nExit."
         return 1
@@ -117,34 +128,31 @@ def main():
 
     # 2. rsync to test machine.
     # rsync node and benchmarks to test machine.
+    print "### now rsync new node to test machine..."
     if rsync_to_test_machine(SAVE_NODE_PATH, NODE):
         print "rsync error, exit!"
         return 4
 
     # 3. remote run benchmark.
+    print "### now remote run benchmark..."
     if BENCHMARK == "all":
         bench_list = benchs
     else:
         bench_list = [BENCHMARK]
 
-    # run_3_bench_list = ['octane']
-    # bench_list = ['octane', 'web_tooling_benchmark', 'start_stop_time', 'node-dc-eis', 'node-dc-ssr']
-    # if BENCHMARK not in benchs:
-    #     print "error benchmark name!\nExit!"
-    #     return
+    for benchmark in bench_list:
+        run(benchmark, NODE)
 
-    for bench in bench_list:
-        run(bench, NODE)
-
-    # 4. start datacollect machine first and get results.
-
-    # 5. run chartcron.sh
-
-    # 6. start nginx web werver first.
-
+        # 4. remote run postdata.py.
+        if POSTDATA:
+            print "### now post results of benchmark %s..." % benchmark
+            postdata(benchmark, BRANCH, COMMIT_ID)
+    else:
+        return "all over."
 
 
 if __name__ == '__main__':
     time.sleep(1)
     if status:
-        main()
+        if "all over." in main():
+            print "### all over."

@@ -7,6 +7,6 @@ SCRIPT_DIR=`dirname $SCRIPT_PATH`
 
 for i in `seq 1 $1`
 do
-  node $SCRIPT_DIR/nodeStartup.js
+  $NODE $SCRIPT_DIR/nodeStartup.js
 done
 

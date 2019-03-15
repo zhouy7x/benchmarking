@@ -3,7 +3,7 @@ import os
 import argparse
 
 
-parser = argparse.ArgumentParser(description='manual to this script')
+parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
 parser.add_argument('--branch', type=str, default="master")
 parser.add_argument('--commit-id', type=str, default=None)
 parser.add_argument('--config', type=str, default=None)  # test machine config.

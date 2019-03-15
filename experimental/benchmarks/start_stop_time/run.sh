@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python3 calcStartup.py
+python3 calcStartup.py $NODE

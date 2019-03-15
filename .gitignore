@@ -13,6 +13,8 @@ tools/chartGen/*.html
 www/htmls/*.html
 *.png
 report.*.json
+report.temp
+total_time
 
 #Python
 .idea/

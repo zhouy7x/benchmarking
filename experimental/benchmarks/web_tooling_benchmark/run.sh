@@ -1,3 +1,3 @@
 #!/bin/bash
 
-node web_tooling_benchmark.js
+$NODE web_tooling_benchmark.js

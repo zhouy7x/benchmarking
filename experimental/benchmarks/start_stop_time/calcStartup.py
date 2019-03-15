@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 import os
-ITERATIONS = 50
+from sys import argv
 
+ITERATIONS = 500
+NODE = argv[1] if argv[1:] else "$HOME/node/bin/node"
 
 # extract path for script we assume startNode.sh is in the
 # same directory as this script
@@ -9,7 +11,7 @@ ITERATIONS = 50
 # SCRIPT_DIR=`dirname $SCRIPT_PATH`
 def main():
     # time -o total_time -f "%e" sh $SCRIPT_DIR/startNode.sh $ITERATIONS
-    cmd = "time -p bash startNode.sh %s 2>&1" % ITERATIONS
+    cmd = "NODE=%s time -p bash startNode.sh %s 2>&1" % (NODE, ITERATIONS)
     TOTAL = os.popen(cmd).readline().split()
     # TOTAL = os.popen(cmd).read()
     # print(TOTAL)

@@ -2,7 +2,6 @@
 import os
 import argparse
 import time
-import builders
 
 
 def usage():
@@ -49,10 +48,31 @@ else:
     else:
         print "BENCHMARK = %s" % BENCHMARK
     print "BRANCH = %s" % BRANCH
-    
-if not COMMIT_ID:
-    COMMIT_ID = builders.get_latest_commit_id()
-print "commit-id = %s" % COMMIT_ID
+
+
+
+def use_current_commit_id():
+    cmd = "git log -1 --pretty=short"
+    print cmd
+    return os.popen(cmd).readline().split()[1]
+
+
+def get_latest_commit_id():
+    if os.chdir(BUILD_NODE_PATH):
+        print "chdir to node dir failed."
+        return
+    cmd = "echo `git rev-list origin/master ^master` | awk '{print $1}'"
+    print cmd
+    try:
+        commit_id = os.popen(cmd).read().split()[0]
+    except Exception as e:
+        print e
+        commit_id = None
+    # print type(commit_id)
+    # print commit_id
+    if not commit_id:
+        commit_id = use_current_commit_id()
+    return commit_id
 
 
 def rsync_to_test_machine(src, dest):
@@ -159,6 +179,11 @@ def main():
 
 
 if __name__ == '__main__':
+    if not COMMIT_ID:
+        COMMIT_ID = get_latest_commit_id()
+    if not COMMIT_ID:
+        status = False
+    print "commit-id = %s" % COMMIT_ID
     time.sleep(1)
     if status:
         if "all over." == main():

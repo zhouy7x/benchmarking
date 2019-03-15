@@ -337,7 +337,7 @@ start_nodeapp_server
 
 # Get the memory footprint just before the run
 pre=`getFootprint`
-echo "Pre run Footprint in kb : $pre" | tee -a $SUMLOG
+echo "Pre run Footprint in kb : $pre"
 
 # Start the client driver command
 # Start client
@@ -351,7 +351,7 @@ check_if_client_finished
 
 # Get the memory footprint just after the run
 post=`getFootprint`
-echo "Post run Footprint in kb : $post" | tee -a $SUMLOG
+echo "Post run Footprint in kb : $post"
 echo
 let footprint_diff=$post-$pre
 echo
@@ -376,11 +376,11 @@ echo "SUMFILE is: ${SUMLOG}"
 echo -e "\n##BEGIN $TEST_NAME OUPTUT $(date)\n" 2>&1 | tee -a $SUMLOG
 echo metric throughput $(cat $RESULTSLOG | grep ^Throughput| uniq | cut -d'=' -f2) 2>&1 | tee -a $SUMLOG
 echo metric latency $(cat $RESULTSLOG | grep "Response time 99 percentile" | cut -d'=' -f2) 2>&1 | tee -a $SUMLOG
+echo "metric pre footprint $pre" | tee -a $SUMLOG
+echo "metric post footprint $post" | tee -a $SUMLOG
 echo mv $RESULTSLOG $LOGDIR_TEMP/$LOGDIR_PREFIX
 
-echo "metric pre footprint $pre"
-echo "metric post footprint $post"
-echo "metric footprint increase $difference"
+echo "metric footprint increase $difference" | tee -a $SUMLOG
 echo -e "\n## TEST COMPLETE ##\n" 2>&1 | tee -a $SUMLOG
 echo -e "\n## END $TEST_NAME OUTPUT $(date)\n\n" 2>&1 | tee -a $SUMLOG
 

@@ -53,7 +53,7 @@ else:
 
 def rsync_to_test_machine(src, dest):
     path_list = [
-        ("%s/node" % src, dest),
+        (src + "/node", dest),
     ]
 
     for path in path_list:
@@ -67,7 +67,7 @@ def rsync_to_test_machine(src, dest):
 
 
 def run(bench, node):
-    cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; NODE=%s bash run.sh;\"" % (machine['user'], machine['host'], bench, node)
+    cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; NODE=%s bash run.sh ;\"" % (machine['user'], machine['host'], bench, node)
     print cmd_string
     if not os.system(cmd_string):
         print "run test succeed!"
@@ -84,6 +84,7 @@ def build_node():
     print cmd
 
     ret = os.popen(cmd).read()
+    print ret
     if "build node succeed!" in ret:
         return 0
     else:
@@ -92,7 +93,7 @@ def build_node():
 
 def postdata(bench, branch, commit_id):
     cmd = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
-        python postdata.py --branch=%s --commit-id=%s;\"" % (machine['user'], machine['host'], bench, branch, commit_id)
+        python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, branch, commit_id)
     print cmd
     if 'failed' not in os.popen(cmd).read():
         print "post data succeed!"
@@ -102,13 +103,14 @@ def postdata(bench, branch, commit_id):
 
 def main():
     # 1. build node.
-    print "### now build node..."
+    print "### now build node ###"
     if build_node():
         print "build node failed!\nExit."
         return 1
     else:
         # move node to a named place.
-        cmd = "%s --version"
+        node_src = BUILD_NODE_PATH + "/out/Release/node"
+        cmd = "%s --version" % node_src
         print cmd
         try:
             node_version = os.popen(cmd).read().split()[0]
@@ -117,9 +119,9 @@ def main():
             return 2
         else:
             node_file_name = "node-" + node_version
-            SAVE_NODE_PATH = "%s/%s" % (SAVE_NODE_PATH_DIR, node_file_name)
-            cmd1 = "mkdir -p %s" % (SAVE_NODE_PATH)
-            cmd2 = "mv %s %s" % (BUILD_NODE_PATH, SAVE_NODE_PATH)
+            dest_node_path = "%s/%s" % (SAVE_NODE_PATH_DIR, node_file_name)
+            cmd1 = "mkdir -p %s" % dest_node_path
+            cmd2 = "mv %s %s" % (node_src, dest_node_path)
             print cmd1
             os.system(cmd1)
             print cmd2
@@ -128,13 +130,13 @@ def main():
 
     # 2. rsync to test machine.
     # rsync node and benchmarks to test machine.
-    print "### now rsync new node to test machine..."
-    if rsync_to_test_machine(SAVE_NODE_PATH, NODE):
+    print "### now rsync new node to test machine ###"
+    if rsync_to_test_machine(dest_node_path, NODE):
         print "rsync error, exit!"
         return 4
 
     # 3. remote run benchmark.
-    print "### now remote run benchmark..."
+    print "### now remote run benchmark ###"
     if BENCHMARK == "all":
         bench_list = benchs
     else:
@@ -145,7 +147,7 @@ def main():
 
         # 4. remote run postdata.py.
         if POSTDATA:
-            print "### now post results of benchmark %s..." % benchmark
+            print "### now post results of benchmark %s ###" % benchmark
             postdata(benchmark, BRANCH, COMMIT_ID)
     else:
         return "all over."
@@ -155,4 +157,4 @@ if __name__ == '__main__':
     time.sleep(1)
     if status:
         if "all over." in main():
-            print "### all over."
+            print "### all over. ###"

@@ -49,11 +49,11 @@ def get_latest_commit_id():
 def build_node():
     cmd = "./configure  > %s/node-build.log 2>&1 && make -j10 >> %s/node-build.log 2>&1" % (LOG_PATH, LOG_PATH)
     print cmd
-    if os.system(cmd):
+    if not os.system(cmd):
         with open("%s/node-build.log" % LOG_PATH) as f:
             data = f.read()
         if "if [ ! -r node -o ! -L node ]; then ln -fs out/Release/node node; fi" in data:
-            return 0
+            return 'ok'
     return 1
 
 
@@ -88,12 +88,10 @@ def main():
             status = False
 
         if status:
-            if not build_node():
-                print "build node failed!"
-            else:
+            if 'ok' == build_node():
                 print "build node succeed!"
-        else:
-            print "build node failed!"
+                return
+        print "build node failed!"
 
 
 if __name__ == '__main__':

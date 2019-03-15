@@ -1,11 +1,8 @@
 #!/usr/bin/python
 import os
 import argparse
+import sys
 import time
-
-
-def usage():
-    print parser.format_usage()
 
 
 parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
@@ -38,17 +35,10 @@ BUILD_NODE_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/communit
 SAVE_NODE_PATH_DIR = "%s/out" % BUILD_NODE_PATH
 
 status = True
-if not BENCHMARK:
-    usage()
-    status = False
-else:
-    if BENCHMARK not in benchs and BENCHMARK == "all":
-        print "ERROR: config 'benchmark' must in %s, or input 'all' for run all benchmarks!" % str(benchs)
-        status = False
-    else:
-        print "BENCHMARK = %s" % BENCHMARK
-    print "BRANCH = %s" % BRANCH
+CURDIR = sys.path[0]
 
+def usage():
+    print parser.format_usage()
 
 
 def use_current_commit_id():
@@ -179,6 +169,17 @@ def main():
 
 
 if __name__ == '__main__':
+    if not BENCHMARK:
+        usage()
+        status = False
+    else:
+        if BENCHMARK not in benchs and BENCHMARK == "all":
+            print "ERROR: config 'benchmark' must in %s, or input 'all' for run all benchmarks!" % str(benchs)
+            status = False
+        else:
+            print "BENCHMARK = %s" % BENCHMARK
+        print "BRANCH = %s" % BRANCH
+
     if not COMMIT_ID:
         COMMIT_ID = get_latest_commit_id()
     if not COMMIT_ID:
@@ -186,5 +187,6 @@ if __name__ == '__main__':
     print "commit-id = %s" % COMMIT_ID
     time.sleep(1)
     if status:
+        os.chdir(CURDIR)
         if "all over." == main():
             print "### all over. ###"

@@ -23,10 +23,10 @@ trap "kill 0" EXIT
 
 python print_env.py
 
-LOGDIR = $HOME/logs
+LOGDIR=$HOME/logs
 datename=$(date +%Y%m%d-%H%M%S)
 # 1. start data-collect machine and nginx web server.
-$HOME/node-v4.4.6-linux-x64/bin/node $HOME/benchmarking/tools/acceptResults/bridge.js > $LOGDIR/acceptResults/$datename.log 2>&1 &
+#$HOME/node-v4.4.6-linux-x64/bin/node $HOME/benchmarking/tools/acceptResults/bridge.js > $LOGDIR/acceptResults/$datename.log 2>&1 &
 #TODO start nginx.
 
 # 2. run dostuff.py.

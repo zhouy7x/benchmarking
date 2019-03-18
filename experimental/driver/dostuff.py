@@ -114,6 +114,7 @@ def postdata(bench, branch, commit_id):
         print "post data succeed!"
     else:
         print "post data failed!"
+    print ''
 
 
 def main():
@@ -151,13 +152,13 @@ def main():
         return 4
 
     # 3. remote run benchmark.
-    print "### now remote run benchmark ###"
     if BENCHMARK == "all":
         bench_list = benchs
     else:
         bench_list = [BENCHMARK]
 
     for benchmark in bench_list:
+        print "### now remote run benchmark %s ###" % benchmark
         run(benchmark, NODE)
 
         # 4. remote run postdata.py.
@@ -173,7 +174,7 @@ if __name__ == '__main__':
         usage()
         status = False
     else:
-        if BENCHMARK not in benchs and BENCHMARK == "all":
+        if BENCHMARK not in benchs and BENCHMARK != "all":
             print "ERROR: config 'benchmark' must in %s, or input 'all' for run all benchmarks!" % str(benchs)
             status = False
         else:

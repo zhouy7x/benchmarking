@@ -226,7 +226,7 @@ function start_nodeapp_server() {
   (
     pushd ${NODEDCEIS_DIR}
     echo $CPUAFFINITY $NODE_APP_CMD
-    $NODE_ROOT/deps/npm/bin/npm-cli.js install 2>&1 | tee -a $RESULTLOG
+    #$NODE_ROOT/deps/npm/bin/npm-cli.js install 2>&1 | tee -a $RESULTLOG
     #npm install 2>&1 | tee -a $RESULTSLOG
     $CPUAFFINITY $NODE_APP_CMD 2>&1 | tee -a $RESULTSLOG
     echo -e "\n## Node Server no longer running ##"

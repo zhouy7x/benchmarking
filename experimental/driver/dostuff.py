@@ -6,11 +6,11 @@ import time
 
 
 parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
-parser.add_argument('--benchmark', type=str, default=None)
-parser.add_argument('--branch', type=str, default="master")
-parser.add_argument('--commit-id', type=str, default=None)
-parser.add_argument('--postdata', type=bool, default=False)
-parser.add_argument('--config', type=str, default=None)  # test machine config.
+parser.add_argument('--benchmark', type=str, help="must set this param, each benchmark name or 'all'. ")
+parser.add_argument('--branch', type=str, default="master", help="default: master")
+parser.add_argument('--commit-id', type=str, default=None, help="default: latest commit id")
+parser.add_argument('--postdata', type=bool, default=False, help="default: false")
+parser.add_argument('--config', type=str, default=None, help="config file.")  # test machine config.
 
 args = parser.parse_args()
 BRANCH = args.branch
@@ -180,12 +180,12 @@ if __name__ == '__main__':
         else:
             print "BENCHMARK = %s" % BENCHMARK
         print "BRANCH = %s" % BRANCH
-
-    if not COMMIT_ID:
-        COMMIT_ID = get_latest_commit_id()
-    if not COMMIT_ID:
-        status = False
-    print "commit-id = %s" % COMMIT_ID
+    if status:
+        if not COMMIT_ID:
+            COMMIT_ID = get_latest_commit_id()
+        if not COMMIT_ID:
+            status = False
+        print "commit-id = %s" % COMMIT_ID
     time.sleep(1)
     if status:
         os.chdir(CURDIR)

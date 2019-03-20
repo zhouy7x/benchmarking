@@ -7,7 +7,7 @@ from benchmarks import *
 
 
 parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
-parser.add_argument('--benchmark', type=str, help="must set this param, each benchmark name or 'all'. ")
+parser.add_argument('--benchmark', type=str, help="must set this param, any benchmark's name or 'all'. ")
 parser.add_argument('--branch', type=str, default="master", help="default: master")
 parser.add_argument('--commit-id', type=str, default=None, help="default: latest commit id")
 parser.add_argument('--postdata', type=bool, default=False, help="default: false")

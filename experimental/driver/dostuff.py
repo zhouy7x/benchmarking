@@ -2,7 +2,8 @@
 import os
 import argparse
 import sys
-import time
+import builders
+from benchmarks import *
 
 
 parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
@@ -17,20 +18,31 @@ BRANCH = args.branch
 BENCHMARK = args.benchmark
 COMMIT_ID = args.commit_id
 POSTDATA = args.postdata
+
 machine = {
     "host": "v8onxeon-8180.sh.intel.com",
     "user": "benchmark",
     }
-benchs = [
-    "octane",
-    "web_tooling_benchmark",
-    # "startup",
-    "start_stop_time",
-    "node-dc-ssr",
-    "node-dc-eis",
-    "node-api"
+# benchs = [
+#     "octane",
+#     "web_tooling_benchmark",
+#     # "startup",
+#     "start_stop_time",
+#     "node-dc-ssr",
+#     "node-dc-eis",
+#     "node-api"
+# ]
+branchs = [
+    'master',
+    '4.x',
+    '0.12.x',
+    '6.x',
+    '7.x',
+    '8.x',
+    'canary',
+    '10.x'
 ]
-NODE = "/home/benchmark/node-v12.0.0-pre/bin/node"
+#NODE = "/home/benchmark/node-v12.0.0-pre/bin/node"
 BUILD_NODE_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
 SAVE_NODE_PATH_DIR = "%s/out" % BUILD_NODE_PATH
 
@@ -80,14 +92,25 @@ def rsync_to_test_machine(src, dest):
     return 0
 
 
-def run(bench, node):
-    cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
-        NODE=%s bash run.sh ;\"" % (machine['user'], machine['host'], bench, node)
-    print cmd_string
-    if not os.system(cmd_string):
-        print "run test succeed!"
+# def run(bench, node):
+#     cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
+#         NODE=%s bash run.sh ;\"" % (machine['user'], machine['host'], bench, node)
+#     print cmd_string
+#     if not os.system(cmd_string):
+#         print "run test succeed!"
+#     else:
+#         print "run test failed!"
+
+
+def postdata(bench, branch, commit_id):
+    cmd = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
+        python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, branch, commit_id)
+    print cmd
+    if 'failed' not in os.popen(cmd).read():
+        print "post data succeed!"
     else:
-        print "run test failed!"
+        print "post data failed!"
+    print ''
 
 
 def build_node():
@@ -104,17 +127,6 @@ def build_node():
         return 0
     else:
         return 1
-
-
-def postdata(bench, branch, commit_id):
-    cmd = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
-        python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, branch, commit_id)
-    print cmd
-    if 'failed' not in os.popen(cmd).read():
-        print "post data succeed!"
-    else:
-        print "post data failed!"
-    print ''
 
 
 def main():
@@ -145,13 +157,12 @@ def main():
                 return 3
 
     # 2. rsync to test machine.
-    # rsync node and benchmarks to test machine.
     print "### now rsync new node to test machine ###"
     if rsync_to_test_machine(dest_node_path, NODE):
         print "rsync error, exit!"
         return 4
 
-    # 3. remote run benchmark.
+    # 3. remote run benchmarks.
     if BENCHMARK == "all":
         bench_list = benchs
     else:
@@ -160,8 +171,7 @@ def main():
     for benchmark in bench_list:
         print "### now remote run benchmark %s ###" % benchmark
         run(benchmark, NODE)
-
-        # 4. remote run postdata.py.
+        # 4. remote run postdata.py for each benchmark.
         if POSTDATA:
             print "### now post results of benchmark %s ###" % benchmark
             postdata(benchmark, BRANCH, COMMIT_ID)
@@ -170,6 +180,8 @@ def main():
 
 
 if __name__ == '__main__':
+    # 1. check params.
+    # 1.1 check BENCHMARK.
     if not BENCHMARK:
         usage()
         status = False
@@ -179,14 +191,25 @@ if __name__ == '__main__':
             status = False
         else:
             print "BENCHMARK = %s" % BENCHMARK
-        print "BRANCH = %s" % BRANCH
+    # 1.2 check BRANCH.
+    if not BRANCH:
+        usage()
+        status = False
+    else:
+        if BRANCH not in branchs:
+            print "ERROR: config 'branch' must in %s!" % str(benchs)
+            status = False
+        else:
+            print "BRANCH = %s" % BRANCH
+    # 1.3 check COMMIT_ID.
     if status:
         if not COMMIT_ID:
-            COMMIT_ID = get_latest_commit_id()
+            COMMIT_ID = builders.get_latest_commit_id(BRANCH)
         if not COMMIT_ID:
             status = False
         print "commit-id = %s" % COMMIT_ID
-    time.sleep(1)
+
+    # 2. run benchmarks.
     if status:
         os.chdir(CURDIR)
         if "all over." == main():

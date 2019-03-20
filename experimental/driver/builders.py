@@ -3,25 +3,48 @@ import os
 import argparse
 
 
-parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
-parser.add_argument('--branch', type=str, default="master")
-parser.add_argument('--commit-id', type=str, default=None)
-parser.add_argument('--config', type=str, default=None)  # test machine config.
-
-args = parser.parse_args()
-BRANCH = args.branch
-COMMIT_ID = args.commit_id
-
 NODE_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
 status = True
 LOG_PATH = "/home/benchmark/logs"
+
+try:
+    # change path to node source.
+    os.chdir(NODE_PATH)
+except Exception as e:
+    print e
+    status = False
 
 # def usage():
 #     print parser.format_usage()
 
 
-def checkout_branch():
-    cmd = "git checkout %s" % BRANCH
+def check_branch(foo):
+    """check if it is need to checkout branch."""
+    def __inside(branch, *args, **kwargs):
+        try:
+            branch_list = os.popen('git branch').readlines()
+            for i in branch_list:
+                if i.startswith("*"):
+                    cur_branch = i.split()[1]
+            print "current branch:", cur_branch
+
+            if cur_branch == branch:
+                print "Already on branch '%s'" % branch
+            else:
+                if checkout_branch(branch):
+                    print "error branch name %s!" % branch
+                    return
+
+            return foo(branch, *args, **kwargs)
+        except Exception as e:
+            print e
+            return 1
+
+    return __inside
+
+
+def checkout_branch(branch):
+    cmd = "git checkout %s" % branch
     print cmd
     return os.system(cmd)
 
@@ -32,18 +55,22 @@ def use_current_commit_id():
     return os.popen(cmd).readline().split()[1]
 
 
-def get_latest_commit_id():
-    cmd = "echo `git rev-list origin/master ^master` | awk '{print $1}'"
+@check_branch
+def get_latest_commit_id(branch):
+    # 1. git fetch
+    if os.system("git fetch"):
+        print "git fetch failed!"
+        return
+
+    # 2. get latest commit id in origin.
+    cmd = "echo `git rev-list origin/%s ^%s` | awk '{print $1}'" % (branch, branch)
     print cmd
     try:
         commit_id = os.popen(cmd).read().split()[0]
     except Exception as e:
-        print e
-        commit_id = None
-    # print type(commit_id)
-    # print commit_id
-    if not commit_id:
+        # print e
         commit_id = use_current_commit_id()
+
     return commit_id
 
 
@@ -58,42 +85,46 @@ def build_node():
     return 1
 
 
-def main():
-    # change path to node source.
-    try:
-        status = True
-        os.chdir(NODE_PATH)
-    except Exception as e:
-        print e
-        status = False
-    else:
-        # git checkout branch.
-        if checkout_branch():
-            print "error branch name!"
-            status = False
-        # git fetch
-        if os.system("git fetch"):
-            print "git fetch failed!"
-            status = False
-        # get a commit id to use.
-        global COMMIT_ID
-        if not COMMIT_ID:
-            print "no commit id, use latest..."
-            COMMIT_ID = get_latest_commit_id()
-        print "commit-id = %s" % COMMIT_ID
+@check_branch
+def reset_node(branch, commit_id):
+    # git reset.
+    cmd = "git reset --hard -q %s" % commit_id
+    print cmd
+    return os.system(cmd)
 
-        cmd = "git reset --hard -q %s" % COMMIT_ID
-        print cmd
-        if os.system(cmd):
-            print "error commit id!"
-            status = False
 
-        if status:
-            if 'ok' == build_node():
-                print "build node succeed!"
-                return COMMIT_ID
-        print "build node failed!"
+def main(branch, commit_id=None):
+    # 1. if commit id not set, get the latest commit id of branch.
+    if not commit_id:
+        print "no commit id, use latest..."
+        commit_id = get_latest_commit_id(branch)
+        if not commit_id:
+            print "get latest commit id failed!"
+            return
+
+    # 2. reset node to this commit.
+    if reset_node(branch, commit_id):
+        print "reset node failed!"
+        return
+
+    # 3. build node.
+    if 'ok' == build_node():
+        print "build node succeed!"
+        return
+
+    print "build node failed!"
 
 
 if __name__ == '__main__':
-    main()
+
+    if status:
+        parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
+        parser.add_argument('--branch', type=str, default="master", help="default: master.")
+        parser.add_argument('--commit-id', type=str, default=None, help="default: latest commit id.")
+        parser.add_argument('--config', type=str, default=None, help="config file.")  # test machine config.
+
+        args = parser.parse_args()
+        BRANCH = args.branch
+        COMMIT_ID = args.commit_id
+
+        main(BRANCH, COMMIT_ID)

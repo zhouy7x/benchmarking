@@ -12,7 +12,7 @@ function createChart() {
     scaleShowLabels: true,
     scaleLabel: '<%=value%> <UNITS>',
     multiTooltipTemplate: "<%=argLabel%>; <%=valueLabel%>; <%=cset%>",
-    tooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%=argLabel%>; <%=valueLabel%>; <%=cset%>",
+    tooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%=argLabel%>; <%=valueLabel%>; \r\n <%=cset%>",
     showScale: true,
     animation: false,
     backgroundColor: 'white'

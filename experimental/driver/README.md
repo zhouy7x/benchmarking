@@ -9,8 +9,10 @@ numpy (pip install numpy)
 matplotlib (sudo apt-get install python-matplotlib)
 requests (pip install requests)
 eventlet (pip install eventlet)
-set $HOME/.ssh/authorized_keys
+$HOME/.ssh/authorized_keys
 
 # Data Server
 mysql
-set $HOME/.ssh/authorized_keys 
+$HOME/.ssh/authorized_keys 
+node (v4.x)
+npm

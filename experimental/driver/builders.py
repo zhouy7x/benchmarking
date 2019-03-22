@@ -3,19 +3,9 @@ import os
 import argparse
 
 
-NODE_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
+NODE_SRC_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
 status = True
 LOG_PATH = "/home/benchmark/logs"
-
-try:
-    # change path to node source.
-    os.chdir(NODE_PATH)
-except Exception as e:
-    print e
-    status = False
-
-# def usage():
-#     print parser.format_usage()
 
 
 def check_branch(foo):
@@ -74,7 +64,7 @@ def get_latest_commit_id(branch):
     return commit_id
 
 
-def build_node():
+def build():
     cmd = "./configure  > %s/node-build.log 2>&1 && make  >> %s/node-build.log 2>&1" % (LOG_PATH, LOG_PATH)
     print cmd
     if not os.system(cmd):
@@ -108,7 +98,7 @@ def main(branch, commit_id=None):
         return
 
     # 3. build node.
-    if 'ok' == build_node():
+    if 'ok' == build():
         print "build node succeed!"
         return
 
@@ -116,7 +106,14 @@ def main(branch, commit_id=None):
 
 
 if __name__ == '__main__':
-
+    # 1. chdir to node src.
+    try:
+        # change path to node source.
+        os.chdir(NODE_SRC_PATH)
+    except Exception as e:
+        print e
+        status = False
+    # 2. check params.
     if status:
         parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
         parser.add_argument('--branch', type=str, default="master", help="default: master.")
@@ -127,4 +124,5 @@ if __name__ == '__main__':
         BRANCH = args.branch
         COMMIT_ID = args.commit_id
 
+        # 3. run build node.
         main(BRANCH, COMMIT_ID)

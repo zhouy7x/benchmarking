@@ -12,6 +12,7 @@ def check_branch(foo):
     """check if it is need to checkout branch."""
     def __inside(branch, *args, **kwargs):
         try:
+            os.chdir(NODE_SRC_PATH)
             branch_list = os.popen('git branch').readlines()
             for i in branch_list:
                 if i.startswith("*"):
@@ -48,7 +49,9 @@ def use_current_commit_id():
 @check_branch
 def get_latest_commit_id(branch):
     # 1. git fetch
-    if os.system("git fetch"):
+    cmd = "git fetch"
+    print cmd
+    if os.system(cmd):
         print "git fetch failed!"
         return
 

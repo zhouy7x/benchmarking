@@ -186,5 +186,5 @@ if __name__ == '__main__':
     # 2. run benchmarks.
     if status:
         os.chdir(CURDIR)
-        # if "all over." == main():
-        #     print "### all over. ###"
+        if "all over." == main():
+            print "### all over. ###"

@@ -61,7 +61,7 @@ def rsync_to_test_machine(src, dest):
     ]
 
     for path in path_list:
-        create_node_dir_cmd = 'ssh %s@%s "mkdir -p %s"' % dest
+        create_node_dir_cmd = 'ssh %s@%s "mkdir -p %s"' % (machine["user"], machine["host"], dest)
         print create_node_dir_cmd
         os.system(create_node_dir_cmd)
         rsync_cmd = "rsync -a %s %s@%s:%s" % (path[0], machine["user"], machine["host"], path[1])

@@ -23,7 +23,7 @@ def check_branch(foo):
                 print "Already on branch '%s'" % branch
             else:
                 if checkout_branch(branch):
-                    print "error branch name %s!" % branch
+                    print "git checkout %s failed!" % branch
                     return
 
             return foo(branch, *args, **kwargs)

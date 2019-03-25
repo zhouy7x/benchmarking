@@ -119,7 +119,8 @@ def main():
     else:
         node_file_name = "node-" + node_version
         dest_node_path = "%s/%s" % (SAVE_NODE_PATH_DIR, node_file_name)
-        remote_node_path = REMOTE_NODE_DIR + "/" + node_file_name
+        remote_node_dir = REMOTE_NODE_DIR + "/" + node_file_name
+        remote_node_path = remote_node_dir + "/node"
         cmd1 = "mkdir -p %s" % dest_node_path
         cmd2 = "mv %s %s" % (node_src, dest_node_path)
         print cmd1
@@ -130,7 +131,7 @@ def main():
 
     # 2. rsync to test machine.
     print "### now rsync new node to test machine ###"
-    if rsync_to_test_machine(dest_node_path, remote_node_path):
+    if rsync_to_test_machine(dest_node_path, remote_node_dir):
         print "rsync error, exit!"
         return 4
 

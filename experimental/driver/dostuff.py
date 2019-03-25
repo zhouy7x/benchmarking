@@ -77,7 +77,8 @@ def postdata(bench, branch, commit_id):
     cmd = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
         python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, branch, commit_id)
     print cmd
-    if 'failed' not in os.popen(cmd).read():
+    ret = os.popen(cmd).read()
+    if 'succeed' in ret and 'failed' not in ret:
         print "post data succeed!"
     else:
         print "post data failed!"

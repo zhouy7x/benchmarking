@@ -56,38 +56,42 @@ if __name__ == '__main__':
             data = f.readlines()
             # print data
 
-        os.chdir(postit_dir)
-        for i in data:
-            """
-            metric throughput 48.05 req/sec
-            metric latency 6.257 sec
-            metric pre footprint 48472
-            metric post footprint 40644
-            """
-            bench_res_to_key = {
-                'metric throughput': 'dc ssr throughput',
-                'metric latency': 'dc ssr latency',
-                'metric pre footprint': 'dc ssr pre footprint',
-                'metric post footprint': 'dc ssr post footprint',
-            }
-            for name, key in bench_res_to_key.iteritems():
-                if name in i:
-                    # print i
-                    try:
-                        value = float(i.split()[-2])
-                        if name == 'metric latency':
-                            value = int(value * 1000)
+        if not data:
+            print "no data, post data failed!"
+        else:
+            os.chdir(postit_dir)
+            for i in data:
+                """
+                metric throughput 48.05 req/sec
+                metric latency 6.257 sec
+                metric pre footprint 48472
+                metric post footprint 40644
+                """
+                bench_res_to_key = {
+                    'metric throughput': 'dc ssr throughput',
+                    'metric latency': 'dc ssr latency',
+                    'metric pre footprint': 'dc ssr pre footprint',
+                    'metric post footprint': 'dc ssr post footprint',
+                }
+                for name, key in bench_res_to_key.iteritems():
+                    if name in i:
+                        # print i
+                        try:
+                            value = float(i.split()[-2])
+                            if name == 'metric latency':
+                                value = int(value * 1000)
+                            else:
+                                value = int(value)
+                        except Exception as e:
+                            # print e
+                            value = int(i.split()[-1])
+    
+                        # print (key, value)
+    
+                        cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[key], value, COMMIT_ID)
+                        print cmd
+                        if 'ok' in os.popen(cmd).read():
+                            print 'post data %s succeed!' % str((key, value))
                         else:
-                            value = int(value)
-                    except Exception as e:
-                        # print e
-                        value = int(i.split()[-1])
+                            print 'post data %s failed!' % str((key, value))
 
-                    # print (key, value)
-
-                    cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[key], value, COMMIT_ID)
-                    print cmd
-                    if 'ok' in os.popen(cmd).read():
-                        print 'post data %s succeed!' % str((key, value))
-                    else:
-                        print 'post data %s failed!' % str((key, value))

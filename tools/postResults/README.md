@@ -16,6 +16,7 @@ where the parameters are as follows:
 
 * $STREAMID   - the stream to which the result is associated
 * $BENCHID    - the id for the benchmark
+* $CSET       - the commit id for the node
 * $RESULT     - the value to be stored for the benchmark result
 
 

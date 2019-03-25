@@ -1,7 +1,7 @@
 ### wwww ###
 
 ## packages ##
-nginx
+nginx 
 
 ## some details ##
 1. need "x" permissions in every parent directory of all ".html" & ".png" files to access that file for every user.(include guest user)

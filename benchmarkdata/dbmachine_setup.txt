@@ -13,7 +13,7 @@
   GRANT ALL PRIVILEGES ON *.* To 'bench1'@'localhost';
 
   use benchdb
-  create TABLE benchresults (streamid INT NOT NULL, benchid INT NOT NULL, time INT(11) NOT NULL, value INT NOT NULL);
+  create TABLE benchresults (id int(10) primary key not null auto_increment, streamid INT NOT NULL, benchid INT NOT NULL, cset CHAR(60) NOT NULL, time INT(11) NOT NULL, value INT NOT NULL);
 
 TODO 3.1) Install the lastest 4.X node version into
 
@@ -21,7 +21,7 @@ TODO 3.1) Install the lastest 4.X node version into
 
 where xxxx is related to the version.  For example:  node-v4.2.2-linux-x64
 
-add symlink
+#add symlink
 
 ln -s /home/benchmark/node-xxxx /home/benchmark/node
 
@@ -63,7 +63,7 @@ chmod 600 /home/benchmark/benchmarking/tools/chartGen/dbconfig.json
 
 TODO Add the following crontab entry
 
-0 5 * * *  /home/benchmark/benchmarking/tools/chartGen/chartcron.sh
+#0 5 * * *  /home/benchmark/benchmarking/tools/chartGen/chartcron.sh
 
 Install the npm dependencies
 
@@ -111,6 +111,6 @@ cd /home/benchmark/benchmarking
 git pull
 
 and add the execute permission (chmod +e.  Then add the following
-crontab entry
+#crontab entry
 
-0 4 * * *  /home/benchmark/updaterepo.sh
+#0 4 * * *  /home/benchmark/updaterepo.sh

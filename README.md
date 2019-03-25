@@ -23,9 +23,8 @@ The path forward is to:
    use cases and attributes
    ([current table](https://github.com/nodejs/benchmarking/blob/master/docs/use_cases.md))
 
-See here for information about the infrastructure in place so far:
-https://github.com/nodejs/benchmarking/blob/master/benchmarks/README.md
-
+#### See here for information about the infrastructure in place so far:
+https://github.com/zhouy7x/benchmarking/blob/master/benchmarks/README.md
 ## Logistics
 
 ### Semi-monthly Meetings

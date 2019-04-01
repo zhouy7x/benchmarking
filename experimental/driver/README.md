@@ -9,21 +9,32 @@
 * matplotlib (sudo apt-get install python-matplotlib)
 * requests (pip install requests)
 * eventlet (pip install eventlet)
+* subprocess32 (pip install subprocess32)
 * set auto openssh without password ($HOME/.ssh/authorized_keys)
 
 # Data Server
 * mysql
+* subprocess32 (pip install subprocess32)
 * set auto openssh without password ($HOME/.ssh/authorized_keys)
 * node (v4.x)
 * npm
 * logs directory (mkdir -p ~/logs)
 
-
 ### Usage ###
-1. python dostuff.py --help
+1. Auto run every Saturday:
+```angular2
+crontab -e
+0 3 * * 6 /bin/bash  /home/benchmark/benchmarking/experimental/driver/schedule-run.sh >> /home/benchmark/logs/schedule-run.sh 2>&1 
+```
+
+2. Help of scripts:
+```angular2
+python dostuff.py --help   ## e.g.  python dostuff.py --benchmark=octane --branch=master --commit-id=4306300b5ea8d8c4ff3daf64c7ed5fd64055ec2f --postdata=false
+python benchmarks.py --help
+python builders.py --help
+```  
 
 ### TODO list ###
-
 1. cannot find dir '~/logs'.\
 done.
 2. postdata.py for different running host.

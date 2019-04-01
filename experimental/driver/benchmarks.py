@@ -36,9 +36,9 @@ def run(bench, node):
 if __name__ == '__main__':
     # 1. get params.
     parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
-    parser.add_argument('--benchmark', type=str, help="must set this param, any benchmark's name or 'all'. ")
-    parser.add_argument('--node', type=str, default=NODE, help="default: %s. " % NODE)
-    parser.add_argument('--config', type=str, default=None, help="config file.")  # test machine config.
+    parser.add_argument('-b', '--benchmark', type=str, help="must set this param, any benchmark's name or 'all'. ")
+    parser.add_argument('-n', '--node', type=str, default=NODE, help="default: %s. " % NODE)
+    parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.
 
     args = parser.parse_args()
     BENCHMARK = args.benchmark

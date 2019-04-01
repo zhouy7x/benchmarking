@@ -7,11 +7,11 @@ from benchmarks import run
 
 
 parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
-parser.add_argument('--benchmark', type=str, help="must set this param, any benchmark's name or 'all'. ")
-parser.add_argument('--branch', type=str, default="master", help="default: master")
-parser.add_argument('--commit-id', type=str, default=None, help="default: latest commit id")
-parser.add_argument('--postdata', type=bool, default=False, help="default: false")
-parser.add_argument('--config', type=str, default=None, help="config file.")  # test machine config.
+parser.add_argument('-b', '--benchmark', type=str, help="must set this param, any benchmark's name or 'all'. ")
+parser.add_argument('-a', '--branch', type=str, default="master", help="branch name, default: master")
+parser.add_argument('-i', '--commit-id', type=str, default=None, help="default: latest commit id")
+parser.add_argument('-p', '--postdata', type=bool, default=False, help="default: false")
+parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.
 
 args = parser.parse_args()
 BRANCH = args.branch
@@ -181,6 +181,7 @@ if __name__ == '__main__':
             if status:
                 if not COMMIT_ID:
                     COMMIT_ID = get_latest_commit_id(BRANCH)
+
                 if not COMMIT_ID:
                     status = False
                 print "commit-id = %s" % COMMIT_ID

@@ -16,23 +16,29 @@ Both of these machines are in the same subnet within softlayer.
 
 The general flow is:
 
-**1. benchmark machine**
+##1. benchmark machine
 
 * (a) -> runs benchmark and publishes to benchmark data machine through simple post
 
-* (b) -> README path:  https://github.com/zhouy7x/benchmarking/blob/master/experimental/driver/README.md
+* (b) -> readme here:  https://github.com/zhouy7x/benchmarking/blob/master/experimental/driver/README.md
 
-**2. benchmark data machine** 
+##2. benchmark data machine
 
-* (c) -> accepts post and stores data into database, currently using mysql 
+* (a) -> accepts post and stores data into database, currently using mysql 
 
-* (d) -> once a week generate cumulative graphs
+* (b) -> once a week generate cumulative graphs
 
-* (e) -> once a week www site pulls graphs so that current data is displayed
+* (c) -> once a week www site pulls graphs so that current data is displayed
 
-**3. benchmark data consumers**
+* (d) -> readme here:  https://github.com/zhouy7x/benchmarking/tree/master/tools/README.md
 
-* (f) go to the website link http://vox.sh.intel.com/ and can view the benchmark charts
+##3. benchmark data consumers
+
+* (a) -> go to the website link http://vox.sh.intel.com/ and can view the benchmark charts
+
+* (b) -> readme here:  https://github.com/zhouy7x/benchmarking/blob/master/www/README.md
+
+
 
 
 ## Capturing Benchmark Results

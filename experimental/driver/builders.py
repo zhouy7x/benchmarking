@@ -1,10 +1,10 @@
 #!/usr/bin/python
 import os
 import argparse
+import utils
 
 
 NODE_SRC_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
-status = True
 LOG_PATH = "/home/benchmark/logs"
 
 
@@ -17,14 +17,15 @@ def check_branch(foo):
             for i in branch_list:
                 if i.startswith("*"):
                     cur_branch = i.split()[1]
-            print "current branch:", cur_branch
+                print "current branch:", cur_branch
 
-            if cur_branch == branch:
-                print "Already on branch '%s'" % branch
-            else:
-                if checkout_branch(branch):
-                    print "git checkout %s failed!" % branch
-                    return
+                if cur_branch == branch:
+                    print "Already on branch '%s'" % branch
+                else:
+                    if checkout_branch(branch):
+                        print "git checkout %s failed!" % branch
+                        return
+                break
 
             return foo(branch, *args, **kwargs)
         except Exception as e:
@@ -99,7 +100,10 @@ def main(branch, commit_id=None):
     if reset_node(branch, commit_id):
         print "reset node failed!"
         return
-
+    commit_id = use_current_commit_id()
+    print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    print commit_id
+    print "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
     # 3. build node.
     if 'ok' == build():
         print "build node succeed!"
@@ -109,23 +113,16 @@ def main(branch, commit_id=None):
 
 
 if __name__ == '__main__':
-    # 1. chdir to node src.
-    try:
-        # change path to node source.
-        os.chdir(NODE_SRC_PATH)
-    except Exception as e:
-        print e
-        status = False
-    # 2. check params.
-    if status:
-        parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
-        parser.add_argument('--branch', type=str, default="master", help="default: master.")
-        parser.add_argument('--commit-id', type=str, default=None, help="default: latest commit id.")
-        parser.add_argument('--config', type=str, default=None, help="config file.")  # test machine config.
+    # 1. check params.
+    parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
+    parser.add_argument('-a', '--branch', type=str, default="master", help="default: master.")
+    parser.add_argument('-i', '--commit-id', type=str, default=None, help="default: latest commit id.")
+    parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.
 
-        args = parser.parse_args()
-        BRANCH = args.branch
-        COMMIT_ID = args.commit_id
+    args = parser.parse_args()
+    BRANCH = args.branch
+    COMMIT_ID = args.commit_id
 
-        # 3. run build node.
+    # 2. run build node.
+    with utils.FolderChanger(NODE_SRC_PATH):
         main(BRANCH, COMMIT_ID)

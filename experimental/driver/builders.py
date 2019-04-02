@@ -3,36 +3,64 @@ import os
 import argparse
 import utils
 
+help = """
+Manual to the script of %s, you need:
+   - A name of node's branch like:
+   
+        --branch="master"
+     
+     default is: "master".
+   - A string of node's git commit id:
+   
+        --commit-id=86517c9f8f2aacf624025839ab8f03167c8d70dd
+        
+     or   
+     
+        --commit-id=86517c9f
+        
+     default is the latest commit id of node.
+   - A command in terminal, you can use simple name for each config("-b" 
+     for "--benchmark", "-n" for "--node"):
 
+        python builders.py -a xxxxxxx -i "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+
+Examples:
+
+     python builders.py
+     python builders.py -a master -i 86517c9f8f2aacf624025839ab8f03167c8d70dd
+     python builders.py --branch="v8.x"
+
+""" % __file__
 NODE_SRC_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
 LOG_PATH = "/home/benchmark/logs"
 
 
 def check_branch(foo):
     """check if it is need to checkout branch."""
-    def __inside(branch, *args, **kwargs):
+    def _inside(branch, *args, **kwargs):
         try:
             os.chdir(NODE_SRC_PATH)
             branch_list = os.popen('git branch').readlines()
             for i in branch_list:
                 if i.startswith("*"):
                     cur_branch = i.split()[1]
-                print "current branch:", cur_branch
+                    break
+            print "current branch:", cur_branch
 
-                if cur_branch == branch:
-                    print "Already on branch '%s'" % branch
-                else:
-                    if checkout_branch(branch):
-                        print "git checkout %s failed!" % branch
-                        return
-                break
+            if cur_branch == branch:
+                print "Already on branch '%s'" % branch
+            else:
+                if checkout_branch(branch):
+                    print "git checkout %s failed!" % branch
+                    return
 
             return foo(branch, *args, **kwargs)
         except Exception as e:
             print e
             return 1
 
-    return __inside
+    return _inside
 
 
 def checkout_branch(branch):

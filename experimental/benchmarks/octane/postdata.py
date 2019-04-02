@@ -52,24 +52,27 @@ if BRANCH not in streamid_dict or not COMMIT_ID:
 
 if __name__ == '__main__':
     if status:
-        with open(file_name) as f:
-            data = f.readlines()
-            # print data
-        if not data:
-            print "no data, post data failed!"
+        arr = []
+        f = open(file_name)
+        line = f.readline()
+        while line:
+             if "Score" in line:
+                  val = int(line.split()[-1])
+                  arr.append(val)
+             line = f.readline()
+        f.close()
+        res = max(arr)
+        if not res:
+             print "no data, post data failed!"
         else:
-            if "Score" in data[-1]:
-                bench_name = 'octane'
-                res = int(data[-1].split()[-1])
-                print res
+             bench_name = 'octane'
+             print res
 
-                os.chdir(postit_dir)
+             os.chdir(postit_dir)
 
-                cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[bench_name], res, COMMIT_ID)
-                print cmd
-                if 'ok' in os.popen(cmd).read():
-                    print 'post data %s succeed!' % bench_name
-                else:
-                    print 'post data %s failed!' % bench_name
-            else:
-                print "do not find data, post data failed!"
+             cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[bench_name], res, COMMIT_ID)
+             print cmd
+             if 'ok' in os.popen(cmd).read():
+                  print 'post data %s succeed!' % bench_name
+             else:
+                  print 'post data %s failed!' % bench_name

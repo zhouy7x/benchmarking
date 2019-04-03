@@ -9,12 +9,7 @@ help = """
 Manual to the script of %s, you need:
    - A benchmark's name like:
 
-        --benchmark="octane"
         --benchmark="web_tooling_benchmark"
-        --benchmark="start_stop_time"
-        --benchmark="node-dc-ssr"
-        --benchmark="node-dc-eis"
-        --benchmark="node-api"
         --benchmark="all"
      
      (special: "all" for run all other benchmarks one by one)
@@ -50,6 +45,7 @@ Examples:
      python dostuff.py -b all -p true
      python dostuff.py --benchmark=web_tooling_benchmark --branch=master --commit-id=86517c9f8f2aacf624025839ab8f03167c8d70dd
      python dostuff.py --benchmark="node-dc-eis" -i 86517c9f
+
 
 """ % __file__
 

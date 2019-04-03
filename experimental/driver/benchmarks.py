@@ -13,12 +13,7 @@ Manual to the script of %s, you need:
      default is: "/home/benchmark/node-v12.0.0-pre/bin/node".
    - A benchmark's name like:
 
-        --benchmark="octane"
         --benchmark="web_tooling_benchmark"
-        --benchmark="start_stop_time"
-        --benchmark="node-dc-ssr"
-        --benchmark="node-dc-eis"
-        --benchmark="node-api"
         --benchmark="all"
      
      (special: "all" for run all other benchmarks one by one)
@@ -33,6 +28,7 @@ Examples:
      python benchmarks.py -b "node-dc-eis" -n "/home/benchmark/node-hre/node"
      python benchmarks.py --benchmark=octane 
      python benchmarks.py -b web_tooling_benchmark --node="/home/benchmark/node-v10.15.3-LTS/node"
+
 
 """ % __file__
 machine = {

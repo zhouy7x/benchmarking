@@ -11,7 +11,7 @@ function optional() {
     fi
 }
 
-optional RUNS 3
+optional RUNS 5
 rm -f report.temp
 
 for ((i=1;i<=$RUNS;i++));

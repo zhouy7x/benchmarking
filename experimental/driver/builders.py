@@ -31,6 +31,7 @@ Examples:
      python builders.py -a master -i 86517c9f8f2aacf624025839ab8f03167c8d70dd
      python builders.py --branch="v8.x"
 
+
 """ % __file__
 NODE_SRC_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
 LOG_PATH = "/home/benchmark/logs"
@@ -142,7 +143,8 @@ def main(branch, commit_id=None):
 
 if __name__ == '__main__':
     # 1. check params.
-    parser = argparse.ArgumentParser(description='manual to the script of %s' % __file__)
+    parser = argparse.ArgumentParser()
+    parser.usage = help
     parser.add_argument('-a', '--branch', type=str, default="master", help="default: master.")
     parser.add_argument('-i', '--commit-id', type=str, default=None, help="default: latest commit id.")
     parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.

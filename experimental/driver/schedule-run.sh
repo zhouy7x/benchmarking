@@ -21,7 +21,8 @@ touch /tmp/v8onxeon-daemon
 
 trap "kill 0" EXIT
 
-python print_env.py
+pushd /home/benchmark/benchmarking/experimental/driver
+#python print_env.py
 
 LOGDIR=$HOME/logs
 datename=$(date +%Y%m%d-%H%M%S)
@@ -31,12 +32,12 @@ echo -e "Start time: `date`"
 #TODO start nginx.
 
 # 2. run dostuff.py.
-python dostuff.py --branch=master --benchmark=all --postdata=True > $LOGDIR/dostuff-$datename.log 2>&1
+python dostuff.py --branch=master --benchmark=all --postdata=True > $LOGDIR/dostuff-$datename.log 2>&1 
 
 # 3. run chartcron.sh, update web image and html.
-if [ -n `cat $LOGDIR/dostuff-$datename.log | grep "all over."` ] ;then
+if [ -n "`cat $LOGDIR/dostuff-$datename.log | grep 'all over.'`" ] ;then
     echo "get keyword 'all over.', run chartcron.sh... ";
-    # bash $HOME/benchmarking/tools/chartGen/chartcron.sh;
+    bash $HOME/benchmarking/tools/chartGen/chartcron.sh;
 fi
 
 # remove run lock.

@@ -1,5 +1,6 @@
 # Current Node.js benchmarking infrastructure
 
+## Introduction
 We currently have setup a bare metal benchmark machine
 https://ci.nodejs.org/computer/iojs-softlayer-benchmark/ which can 
 be used to get repeatable results.  The machine does not have anything
@@ -11,6 +12,11 @@ capture results and generate summary charts from the cumulative
 results.  This machine has not been added to the jenkins CI as
 it does not run jenkins jobs, instead jobs are triggered
 at startup or through cron.
+
+## Structure chart
+![images](https://github.com/zhouy7x/benchmarking/blob/master/structure-chart.png)
+
+
 
 Both of these machines are in the same subnet within softlayer.
 

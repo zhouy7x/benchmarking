@@ -1,4 +1,19 @@
-# Benchmarking Work Group
+# <V8 on Xeon/VOX>
+## High-Level Technical Design
+###### Version 1.1
+###### 03/28/2019
+
+
+## Revision History
+
+| Revision No. | Draft/Changes       |     Date      |    Author     |
+| :----------: | :-----------------: | :-----------: | :-----------: |
+|     1.0      | Initial Draft       |  2019-01-22   |       -       |
+|     1.1      | Schedule Run Driver |  2019-03-28   |  Zhou, Yang   |
+
+
+#### See here for information about the infrastructure in place so far:
+https://github.com/zhouy7x/benchmarking/blob/master/benchmarks/README.md
 
 ## Mandate
 
@@ -16,18 +31,13 @@ Its responsibilities are:
 
 The path forward is to:
  * Define the important
-   [use cases](https://github.com/nodejs/benchmarking/blob/master/docs/use_cases.md)
+   [use cases](https://github.com/zhouy7x/benchmarking/blob/master/docs/use_cases.md)
  * Define the key
-   [runtime attributes](https://github.com/nodejs/benchmarking/blob/master/docs/runtime_attributes.md)
+   [runtime attributes](https://github.com/zhouy7x/benchmarking/blob/master/docs/runtime_attributes.md)
  * Find/create benchmarks that provide good coverage for the
    use cases and attributes
-   ([current table](https://github.com/nodejs/benchmarking/blob/master/docs/use_cases.md))
-
-## Structure chart
-![images](https://github.com/zhouy7x/benchmarking/blob/master/structure-chart.png)
-
-#### See here for information about the infrastructure in place so far:
-https://github.com/zhouy7x/benchmarking/blob/master/benchmarks/README.md
+   ([current table](https://github.com/zhouy7x/benchmarking/blob/master/docs/use_cases.md))
+   
 ## Logistics
 
 ### Semi-monthly Meetings

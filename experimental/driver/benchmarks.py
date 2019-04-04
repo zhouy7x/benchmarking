@@ -87,14 +87,14 @@ if __name__ == '__main__':
         else:
             print "BENCHMARK = %s" % BENCHMARK
 
-        if BENCHMARK == "all":
-            bench_list = benchs
-        else:
-            bench_list = [BENCHMARK]
+            if BENCHMARK == "all":
+                bench_list = benchs
+            else:
+                bench_list = [BENCHMARK]
 
-        # 3. run benchmarks.
-        for benchmark in bench_list:
-            print "### now remote run benchmark %s ###" % benchmark
-            run(benchmark, NODE)
-        else:
-            print "all over."
+            # 3. run benchmarks.
+            for benchmark in bench_list:
+                print "### now remote run benchmark %s ###" % benchmark
+                run(benchmark, NODE)
+            else:
+                print "all over."

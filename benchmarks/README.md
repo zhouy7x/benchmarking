@@ -1,11 +1,10 @@
 # Current Node.js benchmarking infrastructure
 
 ## Introduction
-We currently have setup a bare metal benchmark machine
-https://ci.nodejs.org/computer/iojs-softlayer-benchmark/ which can 
-be used to get repeatable results.  The machine does not have anything
-else running on it and is dedicated hardware opposed to a virtual
-machine.
+We currently have setup a bare metal benchmark machine 
+which can be used to get repeatable results.  The machine does 
+not have anything else running on it and is dedicated hardware 
+opposed to a virtual machine.
 
 In addition we have a benchmarks results machine which is used to 
 capture results and generate summary charts from the cumulative
@@ -17,18 +16,47 @@ at startup or through cron.
 ![images](https://github.com/zhouy7x/benchmarking/blob/master/structure-chart.png)
 
 
-
 Both of these machines are in the same subnet within softlayer.
 
 The general flow is:
 
-##1. benchmark machine
+### test machine driver
 
 * (a) -> runs benchmark and publishes to benchmark data machine through simple post
 
-* (b) -> readme here:  https://github.com/zhouy7x/benchmarking/blob/master/experimental/driver/README.md
+* (b) -> how to setup:  https://github.com/zhouy7x/benchmarking/blob/master/experimental/driver/README.md
 
-##2. benchmark data machine
+* (c) -> how to run: 
+    - dostuff.py, high level, can: 
+        1. build a specified node; 
+        2. rsync to test machine;
+        3. use this specified node remote run benchmarks;
+        4. post results to data machine;
+        5. include all functions of benchmarks.py & builders.py.
+    ```shell
+    cd path/to/benchmarking/experimental/driver 
+    python dostuff.py --benchmark=all --branch=master --commit-id="xxxxxxxxxxxxxxxxxxxxxxxx" --postdata=true
+    ```
+     (for more details, please run "python dostuff.py --help")
+    
+    - benchmarks.py, intermediate level, can:
+        1. remote run all benchmarks in test machine:
+    ```shell
+    cd path/to/benchmarking/experimental/driver 
+    python benchmarks.py --benchmark=web_tooling_benchmark --node="path/to/node"
+    ```
+    (for more details, please run "python benchmarks.py --help")
+    
+    - builders.py, intermediate level , can:
+        1. build a specified version node.
+    ```shell
+    cd path/to/benchmarking/experimental/driver 
+    python builders.py --benchmark=web_tooling_benchmark --node="path/to/node"
+    ```
+    (for more details, please run "python builders.py --help")
+    
+
+### benchmark data machine
 
 * (a) -> accepts post and stores data into database, currently using mysql 
 
@@ -36,15 +64,24 @@ The general flow is:
 
 * (c) -> once a week www site pulls graphs so that current data is displayed
 
-* (d) -> readme here:  https://github.com/zhouy7x/benchmarking/tree/master/tools/README.md
+* (d) -> how to setup:  https://github.com/zhouy7x/benchmarking/tree/master/tools/README.md
 
-##3. benchmark data consumers
+* (e) -> how to run:
+    ```shell
+    cd path/to/benchmarking/tools/acceptResults
+    ./start_bridge.sh
+    ```
+
+### benchmark data consumers
 
 * (a) -> go to the website link http://vox.sh.intel.com/ and can view the benchmark charts
 
-* (b) -> readme here:  https://github.com/zhouy7x/benchmarking/blob/master/www/README.md
+* (b) -> how to setup:  https://github.com/zhouy7x/benchmarking/blob/master/www/README.md
 
-
+* (c) -> how to run:
+    ```shell
+    systemctl nginx restart
+    ```
 
 
 ## Capturing Benchmark Results

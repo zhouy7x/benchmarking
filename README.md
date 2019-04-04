@@ -23,6 +23,9 @@ The path forward is to:
    use cases and attributes
    ([current table](https://github.com/nodejs/benchmarking/blob/master/docs/use_cases.md))
 
+## Structure chart
+![images](https://github.com/zhouy7x/benchmarking/blob/master/structure-chart.png)
+
 #### See here for information about the infrastructure in place so far:
 https://github.com/zhouy7x/benchmarking/blob/master/benchmarks/README.md
 ## Logistics

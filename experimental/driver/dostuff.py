@@ -81,7 +81,7 @@ SAVE_NODE_PATH_DIR = "%s/out" % NODE_SRC_PATH
 status = True
 CURDIR = sys.path[0]
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description='------')
 parser.usage = help
 parser.add_argument('-b', '--benchmark', type=str, choices=benchs, required=True,
                     help="must set this param, any benchmark's name or 'all'. ")

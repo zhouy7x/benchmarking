@@ -28,8 +28,6 @@ Examples:
      python benchmarks.py -b "node-dc-eis" -n "/home/benchmark/node-hre/node"
      python benchmarks.py --benchmark=octane 
      python benchmarks.py -b web_tooling_benchmark --node="/home/benchmark/node-v10.15.3-LTS/node"
-
-
 """ % __file__
 machine = {
     "host": "v8onxeon-8180.sh.intel.com",
@@ -64,7 +62,7 @@ def run(bench, node):
 
 if __name__ == '__main__':
     # 1. get params.
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='------')
     parser.usage = help
     parser.add_argument('-b', '--benchmark', type=str, choices=benchs, required=True, help="must set this param, any benchmark's name or 'all'. ")
     parser.add_argument('-n', '--node', type=str, default=NODE, help="default: %s. " % NODE)

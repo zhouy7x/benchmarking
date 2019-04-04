@@ -143,7 +143,7 @@ def main(branch, commit_id=None):
 
 if __name__ == '__main__':
     # 1. check params.
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='------')
     parser.usage = help
     parser.add_argument('-a', '--branch', type=str, default="master", help="default: master.")
     parser.add_argument('-i', '--commit-id', type=str, default=None, help="default: latest commit id.")

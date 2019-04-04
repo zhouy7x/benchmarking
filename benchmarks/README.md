@@ -17,7 +17,6 @@ at startup or through cron.
 
 
 ## System Configurations
-   - TODO
     
 ## Detailed Design
 ### Test system
@@ -72,7 +71,7 @@ at startup or through cron.
     ./start_bridge.sh
     ```
 
-### Website system
+### Report system
 
 * (a) -> go to the website link http://vox.sh.intel.com/ and can view the benchmark charts
 

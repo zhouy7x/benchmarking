@@ -10,8 +10,9 @@ database
 results/
 mongodb.out
 tools/chartGen/*.html
+tools/chartGen/*.png
 www/htmls/*.html
-*.png
+www/charts/*.png
 report.*.json
 report.temp
 total_time

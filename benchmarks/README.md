@@ -16,11 +16,11 @@ at startup or through cron.
 ![images](https://github.com/zhouy7x/benchmarking/blob/master/structure-chart.png)
 
 
-Both of these machines are in the same subnet within softlayer.
-
-The general flow is:
-
-### test machine driver
+## System Configurations
+   - TODO
+    
+## Detailed Design
+### Test system
 
 * (a) -> runs benchmark and publishes to benchmark data machine through simple post
 
@@ -56,7 +56,7 @@ The general flow is:
     (for more details, please run "python builders.py --help")
     
 
-### benchmark data machine
+### Data system
 
 * (a) -> accepts post and stores data into database, currently using mysql 
 
@@ -72,7 +72,7 @@ The general flow is:
     ./start_bridge.sh
     ```
 
-### benchmark data consumers
+### Website system
 
 * (a) -> go to the website link http://vox.sh.intel.com/ and can view the benchmark charts
 

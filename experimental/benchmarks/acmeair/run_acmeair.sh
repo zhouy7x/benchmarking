@@ -66,23 +66,35 @@ function kill_bkg_processes()   # kill processes started in background
 {
 	echo "Killing due to : $@"    
 	$MONGODB_COMMAND "stop"
-        pkill node
+	pkill node
 	pkill mongod
+	sleep 5
         JAVA_PID="`ps -ef|grep java|grep -v grep|grep -v slave|awk {'print $2'}`"
-        kill -9 $JAVA_PID || true
+	if [ -n "$JAVA_PID" ]; then
+           kill -9 $JAVA_PID || true
+	fi
 	cp=$$
 	pids=$(ps -eo pid,pgid | awk -v pid=$cp '$2==pid && $1!=pid{print $1}')  # get list of all child/grandchild pids - this doesnt seem to work on nodejs benchmark machine....
 	echo "Killing background processes"
 	echo $pids
-        echo "$OTHERPID_LIST"
-	kill -9 $OTHERPID_LIST $pids || true  # avoid failing if there is nothing to kill
+	if [ -n "$pids" ]; then
+	   kill -9 $pids || true
+	fi
+	for i in $OTHERPID_LIST
+	do
+	   pidi="`ps -ef | grep $i |grep -v 'grep'`"
+	   if [ -n "$pidi" ]; then
+	      kill -9 $i || true
+	   fi
+	done
+#	kill -9 $OTHERPID_LIST $pids || true  # avoid failing if there is nothing to kill
 }
 
 function on_exit()
 {
     echo "Caught kill"
     kill_bkg_processes "caught kill"
-    kill -9 $OTHERPID_LIST
+#    kill -9 $PID_LIST  $OTHERPID_LIST
     archive_files
     exit 1
 }
@@ -103,7 +115,7 @@ TEST_NAME=acmeair
 echo -e "\n## TEST: $TEST_NAME ##\n"
 echo -e "## OPTIONS ##\n"
 
-optional RESULTSDIR ${ROOT_DIR}/results
+optional RESULTSDIR $SCRIPT_DIR/results
 optional TIMEOUT 600
 RESULTSLOG=$TEST_NAME.log
 SUMLOG=score_summary.txt
@@ -117,7 +129,7 @@ optional DRIVERNO 25
 ACMEAIR_DRIVER_PATH=${SCRIPT_DIR}/jmeter_scripts
 
 NODE_SERVER=$(hostname -s)
-                    
+NODE_SERVER=$NODE_SERVER.sh.intel.com                    
 
 echo -e "RESULTSDIR: $RESULTSDIR"
 echo -e "RESULTSLOG: $RESULTSLOG"
@@ -142,11 +154,10 @@ echo -e "Platform identified as: ${PLATFORM}\n"
 
 case ${PLATFORM} in
 	Linux)
-                ps -ef  | grep '/node ' | grep -v 'grep'
-                sleep 100
 		bash ${SCRIPT_DIR}/kill_node_linux
 		;;
 esac
+$NODE=/home/benchmark/node-v10.15.3-LTS/node
 if [ -z $NODE ]; then
 NODE=`which node`
 fi
@@ -255,9 +266,16 @@ echo -e "## BEGIN TEST ##\n" 2>&1 | tee -a $LOGFILE
 sleep 10 # give server some time to start up
 
 echo "${SCRIPT_DIR}/loaddb.sh localhost ${PORT}"
-p1=`date +%s.%N`
+db_start=`date +%s.%N`
 ${SCRIPT_DIR}/loaddb.sh localhost ${PORT}
-p2=`date +%s.%N`
+db_end=`date +%s.%N`
+db_start_s=$(echo $db_start | cut -d . -f1)
+db_start_ns=$(echo $db_start | cut -d . -f2)
+db_end_s=$(echo $db_end | cut -d . -f1)
+db_end_ns=$(echo $db_end | cut -d . -f2)
+let res=$(((10#$db_end_s - 10#$db_start_s) * 1000 + (10#$db_end_ns / 1000000 - 10#$db_start_ns / 1000000)))
+echo "load time: $res ms"
+
 sleep 5
 pre=`getFootprint`
 echo -n "Pre run Footprint in kb : $pre"
@@ -267,6 +285,7 @@ echo -e "\n## DRIVER COMMAND ##" 2>&1 | tee -a $LOGFILE
 echo -e "$DRIVER_COMMAND"|tee -a $LOGFILE
 
 (
+	t1=`date +%s`
     if (exec $DRIVER_COMMAND > jmeter.log 2>&1 ) ; then
         echo "Drivers have finished running" 2>&1 | tee -a $LOGFILE
         echo "done" >> $DONEFILE_TEMP
@@ -275,25 +294,21 @@ echo -e "$DRIVER_COMMAND"|tee -a $LOGFILE
         echo "ERROR: driver failed or killed" 2>&1 | tee -a $LOGFILE
         echo "fail" >> $DONEFILE_TEMP
     fi
+	t2=`date +%s`
+	let td=$t2-$t1
+	echo "driver time: $td s"
 ) &
 sleep 5 #sometimes java takes a little longer to get going, so we miss cpu profile
 remove server_cpu.txt
 PIDS="`ps -ef|grep java|grep -v grep|grep -v slave|awk {'print $2'}`"
-echo "$PIDS"
 PIDS="$PIDS `ps -ef|grep mongod|grep -v grep|awk {'print $2'}`"
-echo "$PIDS"
 PIDS="$PIDS `ps -ef|grep node|grep -v grep|awk {'print $2'}`"
-echo "$PIDS"
 PIDS_COMMA=`echo $PIDS|sed 's/ /,/g'`
-echo "$PIDS_COMMA"
 #print top output every 5 seconds 47 times = 48*5  - minus 1 measure so we don't end up with a low last number= 240 = length of jmeter run
 SERVER_CPU_COMMAND="top -b -d 5 -n 47 -p $PIDS_COMMA"
-echo "$SERVER_CPU_COMMAND"
 $SERVER_CPU_COMMAND >> server_cpu.txt &
 CPU_PID=$!
-echo "$CPU_PID"
 export OTHERPID_LIST="$OTHERPID_LIST $CPU_PID"
-echo "$OTHERPID_LIST"
 while ! grep done $DONEFILE_TEMP &>/dev/null ; do
     sleep 3
     # Abort the run if an instance fails or if we time out

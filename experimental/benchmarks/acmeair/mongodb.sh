@@ -13,6 +13,7 @@ rm -rf database
 mkdir database
 rm mongodb.out
 mongod --dbpath database >> mongodb.out 2>&1 &
+#while [ `grep -c "db version " mongodb.out` -lt 1 ]
 while [ `grep -c "waiting for connections " mongodb.out` -lt 1 ]
 do 
 sleep 2

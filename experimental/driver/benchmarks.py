@@ -95,6 +95,6 @@ if __name__ == '__main__':
                 print ">"*50
                 print "Begin remote run benchmark: %s" % benchmark
                 print "<"*50
-                # run(benchmark, NODE)
+                run(benchmark, NODE)
             else:
                 print "all over."

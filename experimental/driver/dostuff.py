@@ -4,6 +4,7 @@ import argparse
 import sys
 from builders import get_latest_commit_id
 from benchmarks import run
+from __init__ import *
 
 help = """
 Manual to the script of %s, you need:
@@ -46,34 +47,8 @@ Examples:
      python dostuff.py --benchmark=web_tooling_benchmark --branch=master --commit-id=86517c9f8f2aacf624025839ab8f03167c8d70dd
      python dostuff.py --benchmark="node-dc-eis" -i 86517c9f
 
-
 """ % __file__
 
-machine = {
-    "host": "v8onxeon-8180.sh.intel.com",
-    "user": "benchmark",
-    }
-benchs = [
-    "octane",
-    "web_tooling_benchmark",
-    # "startup",
-    "start_stop_time",
-    "node-dc-ssr",
-    "node-dc-eis",
-    "node-api",
-    "all"
-]
-branchs = [
-    'master',
-    'v4.x',
-    'v0.12.x',
-    'v6.x',
-    'v7.x',
-    'v8.x',
-    'canary',
-    'v10.x'
-]
-NODE = "/home/benchmark/node-v12.0.0-pre/bin/node"
 REMOTE_NODE_DIR = "/home/benchmark"
 NODE_SRC_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
 SAVE_NODE_PATH_DIR = "%s/out" % NODE_SRC_PATH

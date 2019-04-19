@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import argparse
+from __init__ import *
 
 
 help = """
@@ -28,23 +29,8 @@ Examples:
      python benchmarks.py -b "node-dc-eis" -n "/home/benchmark/node-hre/node"
      python benchmarks.py --benchmark=octane 
      python benchmarks.py -b web_tooling_benchmark --node="/home/benchmark/node-v10.15.3-LTS/node"
+     
 """ % __file__
-machine = {
-    "host": "v8onxeon-8180.sh.intel.com",
-    "user": "benchmark",
-    }
-benchs = [
-    "octane",
-    "web_tooling_benchmark",
-    # "startup",
-    "start_stop_time",
-    "node-dc-ssr",
-    "node-dc-eis",
-    "node-api",
-    "acmeair",
-    "all"
-]
-NODE = "/home/benchmark/node-v12.0.0-pre/bin/node"
 
 
 def usage():

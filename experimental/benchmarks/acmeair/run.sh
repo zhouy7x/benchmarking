@@ -5,6 +5,7 @@ export PATH=$NODEPATH:$PATH
 which node
 
 # run bench
-#bash run_acmeair.sh | tee report.temp
+rm -f report.temp
+bash run_acmeair.sh | tee report.temp
 
 

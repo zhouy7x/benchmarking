@@ -1,0 +1,10 @@
+{
+ "benchid": 8,
+ "name": "acmeair footprint after load[lower is better]" ,
+ "template": "../common/common_template1.html.base",
+ "units": "kb",
+ "outputBase" : "acmeair_postfootprint",
+ "streams": [ {"streamid": 1, "name": "master", "color": "blue" }
+            ],
+ "enabled": true
+}

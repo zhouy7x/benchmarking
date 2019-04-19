@@ -122,13 +122,7 @@ function hugepages_stats() {
 
 # Check Node binary exists and it's version
 function check_if_node_exists() {
-  if [ -z $NODE ]; then
-    NODE=`which node`
-  else
-    #echo "ERROR: Could not find a 'node' executable. Please set the NODE environment variable or update the PATH."
-    echo "node is here: $NODE"
-    #exit 1
-  fi
+  NODE=`which node`
   echo -e "node: $NODE"
   echo -e "NODE VERSION:"
   $NODE --version

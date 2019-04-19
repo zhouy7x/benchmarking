@@ -11,12 +11,16 @@ function optional() {
     fi
 }
 
+NODEPATH=${NODE: :-5}
+export PATH=$NODEPATH:$PATH
+which node
+
 optional RUNS 5
 rm -f report.temp
 
 for ((i=1;i<=$RUNS;i++));
 do
-    $NODE web_tooling_benchmark.js | tee -a report.temp
+    node web_tooling_benchmark.js | tee -a report.temp
     echo ""
     sleep 1
 done

@@ -5,7 +5,6 @@ import sys
 sys.path.insert(1, "..")
 from config import *
 
-
 def usage():
     print parser.format_usage()
 
@@ -39,10 +38,10 @@ if __name__ == '__main__':
                 metric post footprint 40644
                 """
                 bench_res_to_key = {
-                    'metric throughput': 'dc eis throughput',
-                    'metric latency': 'dc eis latency',
-                    'metric pre footprint': 'dc eis pre footprint',
-                    'metric post footprint': 'dc eis post footprint',
+                    'metric throughput': 'acme air throughput',
+                    'metric latency': 'acme air latency',
+                    'metric pre footprint': 'acme air pre footprint',
+                    'metric post footprint': 'acme air post footprint',
                 }
                 for name, key in bench_res_to_key.iteritems():
                     if name in i:
@@ -56,8 +55,9 @@ if __name__ == '__main__':
                         except Exception as e:
                             # print e
                             value = int(i.split()[-1])
-
+    
                         # print (key, value)
+    
                         cmd = "bash postit.sh %s %s %s %s" % (streamid_dict[BRANCH], benchid_dict[key], value, COMMIT_ID)
                         print cmd
                         if 'ok' in os.popen(cmd).read():

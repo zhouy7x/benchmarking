@@ -17,7 +17,17 @@ at startup or through cron.
 
 
 ## System Configurations
+
+1.driver machine: 
+* vox.sh.intel.com
+
+2.test machine:
+* v8onxeon-8180.sh.intel.com
+* amd-7601.sh.intel.com
     
+3.report machine
+* vox.sh.intel.com
+
 ## Detailed Design
 ### Test system
 
@@ -27,8 +37,8 @@ at startup or through cron.
 
 * (c) -> how to run: 
     - dostuff.py, high level, can: 
-        1. build a specified node; 
-        2. rsync to test machine;
+        1. build a specified node in local machine(vox.sh.intel.com); 
+        2. rsync to test machine(v8onxeon-8180.sh.intel.com);
         3. use this specified node remote run benchmarks;
         4. post results to data machine;
         5. include all functions of benchmarks.py & builders.py.
@@ -39,7 +49,7 @@ at startup or through cron.
      (for more details, please run "python dostuff.py --help")
     
     - benchmarks.py, intermediate level, can:
-        1. remote run all benchmarks in test machine:
+        1. remote run all benchmarks in test machine(v8onxeon-8180.sh.intel.com):
     ```shell
     cd path/to/benchmarking/experimental/driver 
     python benchmarks.py --benchmark=web_tooling_benchmark --node="path/to/node"
@@ -47,7 +57,7 @@ at startup or through cron.
     (for more details, please run "python benchmarks.py --help")
     
     - builders.py, intermediate level , can:
-        1. build a specified version node.
+        1. build a specified version node in local machine(vox.sh.intel.com).
     ```shell
     cd path/to/benchmarking/experimental/driver 
     python builders.py --benchmark=web_tooling_benchmark --node="path/to/node"

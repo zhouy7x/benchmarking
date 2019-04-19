@@ -1,5 +1,11 @@
-### Related packages ###
-# Test Server
+## Test Machine
+#### Sync git repos:
+```shell
+rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
+```
+
+#### Related packages 
+* openssh-server (sudo apt-get install openssh-server)
 * numactl
 * unzip
 * mongodb
@@ -10,9 +16,10 @@
 * requests (pip install requests)
 * eventlet (pip install eventlet)
 * subprocess32 (pip install subprocess32)
-* set auto openssh without password ($HOME/.ssh/authorized_keys)
 
-# Data Server
+
+## Data Machine
+#### Related packages 
 * mysql
 * subprocess32 (pip install subprocess32)
 * set auto openssh without password ($HOME/.ssh/authorized_keys)
@@ -20,7 +27,11 @@
 * npm
 * logs directory (mkdir -p ~/logs)
 
-### Usage ###
+#### Automatic login
+* set auto openssh without password ($HOME/.ssh/authorized_keys)
+
+## Steps ##
+
 1. Auto run every Saturday:
 ```angular2
 crontab -e

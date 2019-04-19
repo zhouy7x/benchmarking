@@ -32,7 +32,7 @@ if __name__ == '__main__':
             os.chdir(postit_dir)
             for i in data:
                 """
-                metric throughput 48.05 req/sec
+                metric throughput 4448.05 
                 metric latency 6.257 sec
                 metric pre footprint 48472
                 metric post footprint 40644
@@ -47,7 +47,7 @@ if __name__ == '__main__':
                     if name in i:
                         # print i
                         try:
-                            value = float(i.split()[-2])
+                            value = float(i.split()[-1])
                             if name == 'metric latency':
                                 value = int(value * 1000)
                             else:

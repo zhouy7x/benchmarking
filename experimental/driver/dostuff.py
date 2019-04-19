@@ -159,7 +159,7 @@ def main():
 
     # 3. remote run benchmarks.
     if BENCHMARK == "all":
-        bench_list = benchs
+        bench_list = benchs[:-1]
     else:
         bench_list = [BENCHMARK]
 

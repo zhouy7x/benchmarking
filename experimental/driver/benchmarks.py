@@ -41,6 +41,7 @@ benchs = [
     "node-dc-ssr",
     "node-dc-eis",
     "node-api",
+    "acmeair",
     "all"
 ]
 NODE = "/home/benchmark/node-v12.0.0-pre/bin/node"
@@ -86,13 +87,14 @@ if __name__ == '__main__':
             print "BENCHMARK = %s" % BENCHMARK
 
             if BENCHMARK == "all":
-                bench_list = benchs
+                bench_list = benchs[:-1]
             else:
                 bench_list = [BENCHMARK]
-
             # 3. run benchmarks.
             for benchmark in bench_list:
-                print "### now remote run benchmark %s ###" % benchmark
-                run(benchmark, NODE)
+                print ">"*50
+                print "Begin remote run benchmark: %s" % benchmark
+                print "<"*50
+                # run(benchmark, NODE)
             else:
                 print "all over."

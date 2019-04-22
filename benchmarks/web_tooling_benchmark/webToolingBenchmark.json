@@ -1,9 +1,11 @@
 {
-    "benchid": 12,
-    "name": "Web Tooling Benchmark Geomean [higher is better]" ,
-    "template": "../common/common_template1.html.base",
-    "units": "Geomean of runs per 100s",
-    "outputBase" : "web_tooling_benchmark",
-    "streams": [ {"streamid": 1, "name": "master", "color": "blue" } ],
+ "benchid": 12,
+ "name": "Web Tooling Benchmark Geomean [higher is better]" ,
+ "template": "../common/common_template1.html.base",
+ "units": "Geomean of runs per 100s",
+ "outputBase" : "web_tooling_benchmark",
+ "streams": [ {"streamid": 1, "name": "Intel(R) Xeon(R) Platinum 8180 CPU @ 2.50GHz", "color": "blue" },
+              {"streamid": 2, "name": "AMD EPYC 7601 32-Core Processor @ 2.20GHz", "color": "red" }
+             ],
     "enabled": true
 }

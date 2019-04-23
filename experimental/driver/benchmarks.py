@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import os
 import argparse
-from __init__ import *
+from config import *
 
 
 help = """
@@ -11,7 +11,12 @@ Manual to the script of %s, you need:
 
         --node="/home/benchmark/my-node-dir/node"
      
-     default is: "/home/benchmark/node-v12.0.0-pre/bin/node".
+     default is: "/home/benchmark/node-v12.0.0-pre/bin/node"
+   - An id of a test machine:
+     
+        --machine=1
+     
+     default is: 1
    - A benchmark's name like:
 
         --benchmark="web_tooling_benchmark"
@@ -19,16 +24,16 @@ Manual to the script of %s, you need:
      
      (special: "all" for run all other benchmarks one by one)
    - A command in terminal, you can use simple name for each config("-b" 
-     for "--benchmark", "-n" for "--node"):
+     for "--benchmark", "-m" for "--machine", "-n" for "--node"):
 
-        python benchmarks.py -b xxxxxxx -n "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+        python benchmarks.py -b xxxxxxx -m x -n "xxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 
 Examples:
 
-     python benchmarks.py -b "node-dc-eis" -n "/home/benchmark/node-hre/node"
+     python benchmarks.py -b "node-dc-eis" -m 1 -n "/home/benchmark/node-hre/node"
      python benchmarks.py --benchmark=octane 
-     python benchmarks.py -b web_tooling_benchmark --node="/home/benchmark/node-v10.15.3-LTS/node"
+     python benchmarks.py -b web_tooling_benchmark --machine=2 --node="/home/benchmark/node-v10.15.3-LTS/node"
      
 """ % __file__
 
@@ -52,6 +57,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='------')
     parser.usage = help
     parser.add_argument('-b', '--benchmark', type=str, choices=benchs, required=True, help="must set this param, any benchmark's name or 'all'. ")
+    parser.add_argument('-m', '--machine', type=int, default=1, choices=streams, help="id of test machine, default: 1")
     parser.add_argument('-n', '--node', type=str, default=NODE, help="default: %s. " % NODE)
     parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.
 

@@ -4,7 +4,7 @@ import argparse
 import sys
 from builders import get_latest_commit_id
 from benchmarks import run
-from __init__ import *
+from config import *
 
 help = """
 Manual to the script of %s, you need:
@@ -14,11 +14,11 @@ Manual to the script of %s, you need:
         --benchmark="all"
      
      (special: "all" for run all other benchmarks one by one)
-   - A name of node's branch like:
-   
-        --branch="master"
+   - An id of a test machine(1 for xeon 8180, 2 for AMD 7601):
      
-     default is: "master".
+        --machine=1
+     
+     default is: 1 
    - A string of node's git commit id:
    
         --commit-id=86517c9f8f2aacf624025839ab8f03167c8d70dd
@@ -60,7 +60,8 @@ parser = argparse.ArgumentParser(description='------')
 parser.usage = help
 parser.add_argument('-b', '--benchmark', type=str, choices=benchs, required=True,
                     help="must set this param, any benchmark's name or 'all'. ")
-parser.add_argument('-a', '--branch', type=str, default="master", help="branch name, default: master")
+# parser.add_argument('-a', '--branch', type=str, default="master", help="branch name, default: master")
+parser.add_argument('-m', '--machine', type=int, default=1, choices=streams, help="id of test machine, default: 1")
 parser.add_argument('-i', '--commit-id', type=str, default=None, help="default: latest commit id")
 parser.add_argument('-p', '--postdata', type=bool, default=False, help="default: false")
 parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.

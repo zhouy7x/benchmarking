@@ -1,5 +1,9 @@
 ## Test Machine
-#### Sync git repos:
+#### System
+* ubuntu server 16.04.6 LTS
+
+#### Source
+* benchmarking
 ```shell
 rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 ```
@@ -10,6 +14,8 @@ rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 * unzip
 * mongodb
 * python2.7 
+* gcc=5.4
+* g++=5.4
 * pip (sudo apt install python-pip)
 * numpy (pip install numpy)
 * matplotlib (sudo apt-get install python-matplotlib)
@@ -19,27 +25,48 @@ rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 
 
 ## Data Machine
-#### Related packages 
-* mysql
-* subprocess32 (pip install subprocess32)
-* set auto openssh without password ($HOME/.ssh/authorized_keys)
-* node (v4.x)
-* npm
-* logs directory (mkdir -p ~/logs)
+#### System
+* ubuntu 16.04 LTS
+
+#### Source
+* benchmarking
+```shell
+git clone https://github.com/zhouy7x/benchmarking.git
+```
+
+* log file directory
+```shell
+mkdir -p ~/logs
+``` 
 
 #### Automatic login
-* set auto openssh without password ($HOME/.ssh/authorized_keys)
+* set authorized keys
+```shell
+ssh-keygen
+ssh-copy-id -i ~/.ssh/id_rsa.pub username@hostname
+```
+
+#### Related packages 
+* mysql-server
+* gcc=5.4
+* g++=5.4
+* subprocess32 (pip install subprocess32)
+* node (v4.x)
+* npm
 
 ## Steps ##
 
 1. Auto run every Saturday:
-```angular2
+```shell
 crontab -e
-0 3 * * 6 /bin/bash  /home/benchmark/benchmarking/experimental/driver/schedule-run.sh >> /home/benchmark/logs/schedule-run.sh 2>&1 
 ```
+then add this line:
+```text
+0 3 * * 6 /bin/bash  /home/benchmark/benchmarking/experimental/driver/schedule-run.sh >> /home/benchmark/logs/schedule-run.sh 2>&1 
+````
 
-2. Help of scripts:
-```angular2
+2. Guide of scripts:
+```shell
 python dostuff.py --help   ## e.g.  python dostuff.py --benchmark=octane --branch=master --commit-id=4306300b5ea8d8c4ff3daf64c7ed5fd64055ec2f --postdata=false
 python benchmarks.py --help
 python builders.py --help

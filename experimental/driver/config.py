@@ -1,7 +1,3 @@
-machine = {
-    "host": "v8onxeon-8180.sh.intel.com",
-    "user": "benchmark",
-    }
 benchs = [
     "octane",
     "web_tooling_benchmark",
@@ -23,4 +19,18 @@ branchs = [
     'canary',
     'v10.x'
 ]
+streams = {
+    1: 'intel xeon 8180',
+    2: 'amd 7601'
+}
+machines = {
+    'intel xeon 8180': {
+              "host": "v8onxeon-8180.sh.intel.com",
+              "user": "benchmark",
+    },
+    'amd 7601': {
+        "host": "amd-7601.sh.intel.com",
+        "user": "benchmark",
+    }
+}
 NODE = "/home/benchmark/node-v12.0.0-pre/bin/node"

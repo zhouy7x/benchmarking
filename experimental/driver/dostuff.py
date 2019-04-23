@@ -35,18 +35,17 @@ Manual to the script of %s, you need:
      "true" for post data to data machine, "false" for not.
      default is: "false".
    - A command in terminal, you can use simple name for each config("-b" 
-     for "--benchmark", "-a" for "--branch", "-i" for "--commit-id", "-p" for 
+     for "--benchmark", "-m" for "--machine", "-i" for "--commit-id", "-p" for 
      "--postdata"):
 
-        python dostuff.py -b xxxxxxx -i "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+        python dostuff.py -b xxxxxxx -m 1 -i "xxxxxxxxxxxxxxxxxxxxxxxxxx" -p false
 
 
 Examples:
 
-     python dostuff.py -b all -p true
-     python dostuff.py --benchmark=web_tooling_benchmark --branch=master --commit-id=86517c9f8f2aacf624025839ab8f03167c8d70dd
+     python dostuff.py -b all -m 2 -p true
+     python dostuff.py --benchmark=web_tooling_benchmark --machine=1 --commit-id=86517c9f8f2aacf624025839ab8f03167c8d70dd
      python dostuff.py --benchmark="node-dc-eis" -i 86517c9f
-
 """ % __file__
 
 REMOTE_NODE_DIR = "/home/benchmark"
@@ -61,16 +60,20 @@ parser.usage = help
 parser.add_argument('-b', '--benchmark', type=str, choices=benchs, required=True,
                     help="must set this param, any benchmark's name or 'all'. ")
 # parser.add_argument('-a', '--branch', type=str, default="master", help="branch name, default: master")
-parser.add_argument('-m', '--machine', type=int, default=1, choices=streams, help="id of test machine, default: 1")
+parser.add_argument('-m', '--machine', type=int, default=1, choices=streams,
+                    help="id of test machine in %s, default: 1" % streams)
 parser.add_argument('-i', '--commit-id', type=str, default=None, help="default: latest commit id")
 parser.add_argument('-p', '--postdata', type=bool, default=False, help="default: false")
 parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.
 
 args = parser.parse_args()
-BRANCH = args.branch
+MACHINE_ID = args.machine
 BENCHMARK = args.benchmark
 COMMIT_ID = args.commit_id
 POSTDATA = args.postdata
+
+machine = machines[streams[MACHINE_ID]]
+print machine
 
 
 def usage():
@@ -110,7 +113,7 @@ def postdata(bench, branch, commit_id):
 def build_node():
     """build node"""
     cmd = "python builders.py "
-    cmd += "--branch=%s " % BRANCH
+    # cmd += "--branch=%s " % BRANCH
     if COMMIT_ID:
         cmd += "--commit-id=%s " % COMMIT_ID
     print cmd
@@ -166,7 +169,7 @@ def main():
 
     for benchmark in bench_list:
         print "### now remote run benchmark %s ###" % benchmark
-        run(benchmark, remote_node_path)
+        run(benchmark, machine, remote_node_path)
         # 4. remote run postdata.py for each benchmark.
         if POSTDATA:
             print "### now post results of benchmark %s ###" % benchmark

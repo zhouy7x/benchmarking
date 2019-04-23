@@ -2,14 +2,10 @@
 import os
 import argparse
 import utils
+from config import *
 
 help = """
-Manual to the script of %s, you need:
-   - A name of node's branch like:
-   
-        --branch="master"
-     
-     default is: "master".
+Manual to the script of %s, build node on branch 'master', you need:
    - A string of node's git commit id:
    
         --commit-id=86517c9f8f2aacf624025839ab8f03167c8d70dd
@@ -19,18 +15,16 @@ Manual to the script of %s, you need:
         --commit-id=86517c9f
         
      default is the latest commit id of node.
-   - A command in terminal, you can use simple name for each config("-b" 
-     for "--benchmark", "-n" for "--node"):
+   - A command in terminal, you can use simple name for each config("-i" for "--commit-id"):
 
-        python builders.py -a xxxxxxx -i "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+        python builders.py -i "xxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 
 Examples:
 
      python builders.py
-     python builders.py -a master -i 86517c9f8f2aacf624025839ab8f03167c8d70dd
-     python builders.py --branch="v8.x"
-
+     python builders.py -i 86517c9f8f2aacf624025839ab8f03167c8d70dd
+     python builders.py --commit-id=86517c9f
 """ % __file__
 
 NODE_SRC_PATH = "/home/benchmark/benchmarking/experimental/benchmarks/community-benchmark/node"
@@ -145,12 +139,12 @@ if __name__ == '__main__':
     # 1. check params.
     parser = argparse.ArgumentParser(description='------')
     parser.usage = help
-    parser.add_argument('-a', '--branch', type=str, default="master", help="default: master.")
+    # parser.add_argument('-a', '--branch', type=str, default="master", help="default: master.")
     parser.add_argument('-i', '--commit-id', type=str, default=None, help="default: latest commit id.")
     parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.
 
     args = parser.parse_args()
-    BRANCH = args.branch
+    # BRANCH = args.branch
     COMMIT_ID = args.commit_id
 
     # 2. run build node.

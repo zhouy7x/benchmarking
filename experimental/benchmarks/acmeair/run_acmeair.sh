@@ -157,17 +157,9 @@ case ${PLATFORM} in
 		bash ${SCRIPT_DIR}/kill_node_linux
 		;;
 esac
-$NODE=/home/benchmark/node-v10.15.3-LTS/node
-if [ -z $NODE ]; then
-NODE=`which node`
-fi
-echo "node=$NODE"
-if [ -z "$NODE" ]; then
-    echo "ERROR: Could not find a 'node' executable. Please set the NODE environment variable or update the PATH."
-    echo "node is not here: $NODE"
-    exit 1
-fi
 
+NODE=`which node`
+echo "node=$NODE"
 echo -e "NODE VERSION:"
 $NODE --version
 

@@ -33,4 +33,5 @@ machines = {
         "user": "benchmark",
     }
 }
-NODE = "/home/benchmark/node-v12.0.0-pre/bin/node"
+BRANCH = "master"
+NODE = "/home/benchmark/node-v12.0.0-pre/node"

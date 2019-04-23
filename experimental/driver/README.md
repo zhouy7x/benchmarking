@@ -16,6 +16,10 @@ rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 * python2.7 
 * gcc=5.4
 * g++=5.4
+* java=1.7
+```shell
+
+```
 * pip (sudo apt install python-pip)
 * numpy (pip install numpy)
 * matplotlib (sudo apt-get install python-matplotlib)

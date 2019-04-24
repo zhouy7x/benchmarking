@@ -266,7 +266,7 @@ db_start_ns=$(echo $db_start | cut -d . -f2)
 db_end_s=$(echo $db_end | cut -d . -f1)
 db_end_ns=$(echo $db_end | cut -d . -f2)
 let res=$(((10#$db_end_s - 10#$db_start_s) * 1000 + (10#$db_end_ns / 1000000 - 10#$db_start_ns / 1000000)))
-echo "load time: $res ms"
+echo -e "\nload time: $res ms"
 
 sleep 5
 pre=`getFootprint`

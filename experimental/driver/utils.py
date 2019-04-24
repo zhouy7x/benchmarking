@@ -63,6 +63,7 @@ def check_folder(foo):
 
 @check_folder
 def mkdir(folder):
+    print(">> mkdir %s" % folder)
     Run(['mkdir', '-p', folder])
 
 

@@ -20,6 +20,7 @@ branchs = [
     'v10.x'
 ]
 streams = {
+    0: 'all',
     1: 'intel xeon 8180',
     2: 'amd 7601'
 }

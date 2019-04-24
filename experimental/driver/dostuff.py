@@ -4,6 +4,7 @@ import argparse
 import sys
 from builders import get_latest_commit_id
 from benchmarks import run
+import utils
 from config import *
 
 help = """
@@ -72,9 +73,6 @@ BENCHMARK = args.benchmark
 COMMIT_ID = args.commit_id
 POSTDATA = args.postdata
 
-machine = machines[streams[MACHINE_ID]]
-print machine
-
 
 def usage():
     print parser.format_usage()
@@ -98,9 +96,9 @@ def rsync_to_test_machine(src, dest):
     return 0
 
 
-def postdata(bench, branch, commit_id):
+def postdata(bench, machine_id, commit_id):
     cmd = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
-        python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, branch, commit_id)
+        python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, machine_id, commit_id)
     print cmd
     ret = os.popen(cmd).read()
     if 'succeed' in ret and 'failed' not in ret:
@@ -112,21 +110,23 @@ def postdata(bench, branch, commit_id):
 
 def build_node():
     """build node"""
-    cmd = "python builders.py "
+    cmd = ["python", "builders.py"]
     # cmd += "--branch=%s " % BRANCH
     if COMMIT_ID:
-        cmd += "--commit-id=%s " % COMMIT_ID
-    print cmd
+        cmd.append("--commit-id=%s" % COMMIT_ID)
 
-    ret = os.popen(cmd).read()
-    print ret
+    ret = utils.Run(cmd)
+    # print cmd
+
+    # ret = os.popen(cmd).read()
+    # print ret
     if "build node succeed!" in ret:
         return 0
     else:
         return 1
 
 
-def main():
+def main(machine_id):
     # 1. build node.
     print "### now build node ###"
     if build_node():
@@ -173,7 +173,7 @@ def main():
         # 4. remote run postdata.py for each benchmark.
         if POSTDATA:
             print "### now post results of benchmark %s ###" % benchmark
-            postdata(benchmark, BRANCH, COMMIT_ID)
+            postdata(benchmark, machine_id, COMMIT_ID)
     else:
         return "all over."
 
@@ -204,15 +204,62 @@ if __name__ == '__main__':
 
             # 1.3 check COMMIT_ID.
             if status:
-                if not COMMIT_ID:
-                    COMMIT_ID = get_latest_commit_id(BRANCH)
+                with utils.FolderChanger(NODE_SRC_PATH):
+                    if not COMMIT_ID:
+                        COMMIT_ID = get_latest_commit_id(BRANCH)
 
-                if not COMMIT_ID:
-                    status = False
-                print "commit-id = %s" % COMMIT_ID
+                    if not COMMIT_ID:
+                        status = False
+                    print "commit-id = %s" % COMMIT_ID
 
-    # 2. run benchmarks.
+    # 2. build node.
     if status:
-        os.chdir(CURDIR)
-        if "all over." == main():
-            print "### all over. ###"
+        # os.chdir(CURDIR)
+        # 2.1 build node image.
+        print "### now build node ###"
+        if build_node():
+            print "build node failed!\nExit."
+            status = False
+
+        # 2.2 move node to a named place.
+        node_src = NODE_SRC_PATH + "/out/Release/node"
+        cmd = node_src + " --version"
+        try:
+            node_version = os.popen(cmd).read().split()[0]
+            # node_version = utils.Run(cmd)
+            node_file_name = "node-" + node_version
+            dest_node_path = "%s/%s" % (SAVE_NODE_PATH_DIR, node_file_name)
+            remote_node_dir = REMOTE_NODE_DIR + "/" + node_file_name
+            remote_node_path = remote_node_dir + "/node"
+            # cmd1 = "mkdir -p %s" % dest_node_path
+            cmd2 = "mv %s %s" % (node_src, dest_node_path)
+            utils.mkdir(dest_node_path)
+            if os.system(cmd2):
+                status = False
+        except Exception as e:
+            print e
+            status = False
+
+    # 3. rsync to each test machine.
+    if status:
+        machine_list = []
+        if not MACHINE_ID:
+            for key in machines.keys():
+                if key:
+                    machine_list.append(key)
+        else:
+            machine_list.append(MACHINE_ID)
+
+        for machine_id in machine_list:
+            machine = machines[streams[machine_id]]
+            print machine
+            print "### now rsync new node to test machine ###"
+            if rsync_to_test_machine(dest_node_path, remote_node_dir):
+                print "rsync error, exit!"
+                status = False
+
+
+            # 3. run benchmarks.
+            if status:
+                if "all over." == main(machine_id):
+                    print "### all over. ###"

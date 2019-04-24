@@ -45,10 +45,8 @@ def run(bench, machine, node):
     cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
         NODE=%s bash run.sh ;\"" % (machine['user'], machine['host'], bench, node)
     print cmd_string
-    if not os.system(cmd_string):
-        print "run test succeed!"
-    else:
-        print "run test failed!"
+    os.system(cmd_string)
+    print "run test %s over!" % bench
 
 
 def show_data():

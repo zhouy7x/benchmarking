@@ -20,6 +20,7 @@ rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 ```shell
 
 ```
+* bc (sudo apt-get install bc)
 * pip (sudo apt install python-pip)
 * numpy (pip install numpy)
 * matplotlib (sudo apt-get install python-matplotlib)

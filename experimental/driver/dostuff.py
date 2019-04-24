@@ -96,9 +96,9 @@ def rsync_to_test_machine(src, dest):
     return 0
 
 
-def postdata(bench, machine_id, commit_id):
+def postdata(bench, stream, commit_id):
     cmd = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
-        python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, machine_id, commit_id)
+        python postdata.py --branch=%s --commit-id=%s ;\"" % (machine['user'], machine['host'], bench, stream, commit_id)
     print cmd
     ret = os.popen(cmd).read()
     if 'succeed' in ret and 'failed' not in ret:
@@ -258,8 +258,7 @@ if __name__ == '__main__':
                 print "rsync error, exit!"
                 status = False
 
-
-            # 3. run benchmarks.
+            # 4. run benchmarks.
             if status:
                 if "all over." == main(machine_id):
                     print "### all over. ###"

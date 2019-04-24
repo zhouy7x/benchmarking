@@ -1,12 +1,12 @@
 benchs = [
-    "octane",
-    "web_tooling_benchmark",
-    # "startup",
     "start_stop_time",
-    "node-dc-ssr",
-    "node-dc-eis",
+    # "startup",
     "node-api",
     "acmeair",
+    "octane",
+    "web_tooling_benchmark",
+    "node-dc-eis",
+    "node-dc-ssr",
     "all"
 ]
 branchs = [

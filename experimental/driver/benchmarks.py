@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import os
 import argparse
+import time
+
 from config import *
 
 
@@ -69,8 +71,8 @@ if __name__ == '__main__':
     MACHINE_ID = args.machine
     NODE = args.node
 
-    machine = machines[streams[MACHINE_ID]]
-    print machine
+    # machine = machines[streams[MACHINE_ID]]
+    # print machine
     # 2. check params.
     # 2.1 check NODE.
     # 2.2 check BENCHMARK.
@@ -87,12 +89,26 @@ if __name__ == '__main__':
                 bench_list = [BENCHMARK]
             print "bench list: %s" % bench_list
 
-            # 3. run benchmarks.
-            for benchmark in bench_list:
-                print ">"*50
-                print "Begin remote run benchmark: %s" % benchmark
-                print "<"*50
-                run(benchmark, machine, NODE)
+            # check machine id.
+            machine_list = []
+            if not MACHINE_ID:
+                for key in streams.keys():
+                    if key:
+                        machine_list.append(key)
             else:
-                print "all over."
-                # show_data()
+                machine_list.append(MACHINE_ID)
+            # print 'machine_list',machine_list
+            for machine_id in machine_list:
+                machine = machines[streams[machine_id]]
+                print machine
+                time.sleep(1)
+                # 3. run benchmarks.
+                for benchmark in bench_list:
+                    time.sleep(1)
+                    print ">"*50
+                    print "Begin remote run benchmark: %s" % benchmark
+                    print "<"*50
+                    run(benchmark, machine, NODE)
+                else:
+                    print "all over."
+                    # show_data()

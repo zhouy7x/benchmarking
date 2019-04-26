@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NODEPATH=${NODE: :-5}
-export PATH=$NODEPATH:$PATH
+export PATH=$NODEPATH:/opt/jdk1.7.0/bin:$PATH
 which node
 
 # run bench

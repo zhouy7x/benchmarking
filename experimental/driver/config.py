@@ -43,7 +43,7 @@ streams = {
     0: 'all',
     1: 'intel xeon 8180',
     2: 'amd 7601',
-    3: 'local'
+    3: 'lhj'
 }
 machines = {
     'intel xeon 8180': {
@@ -54,8 +54,8 @@ machines = {
         "host": "amd-7601.sh.intel.com",
         "user": "benchmark",
     },
-    'local': {
-        "host": "localhost",
+    'lhj': {
+        "host": "lhj.sh.intel.com",
         "user": "benchmark",
     }
 }

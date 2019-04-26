@@ -50,7 +50,7 @@ def run(bench, machine, node):
     res_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
         python data.py ;\"" % (machine['user'], machine['host'], bench)
     res = utils.Shell(res_string)
-    return res.split()
+    return res.splitlines()
 
 
 def show_data():
@@ -110,12 +110,14 @@ if __name__ == '__main__':
                     print "Begin remote run benchmark: %s" % benchmark
                     print "<"*50
                     res = run(benchmark, machine, NODE)
-                    print res
-                    for key, val in benchid_dict.iteritems():
-                        if str(val) == res[0]:
-                            res.insert(1, key)
-                            data.append(res)
-                            break
+                    for i in res:
+                        j = i.split()
+                        print j
+                        for key, val in benchid_dict.iteritems():
+                            if str(val) == j[0]:
+                                j.insert(1, key)
+                                data.append(j)
+                                break
                 else:
                     print "all over."
                     print data

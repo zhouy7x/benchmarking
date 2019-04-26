@@ -30,3 +30,7 @@ streamid_dict = {
     'canary': 7,
     '10.x': 8,
 }
+streams = {
+    1: 'intel xeon 8180',
+    2: 'amd 7601'
+}

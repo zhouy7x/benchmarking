@@ -15,7 +15,7 @@ NODEPATH=${NODE: :-5}
 export PATH=$NODEPATH:$PATH
 which node
 
-optional RUNS 5
+optional RUNS 3
 rm -f report.temp
 
 for ((i=1;i<=$RUNS;i++));

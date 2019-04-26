@@ -1,8 +1,6 @@
 #!/usr/bin/python
 import os
 import argparse
-import time
-
 from config import *
 
 
@@ -101,10 +99,8 @@ if __name__ == '__main__':
             for machine_id in machine_list:
                 machine = machines[streams[machine_id]]
                 print machine
-                time.sleep(1)
                 # 3. run benchmarks.
                 for benchmark in bench_list:
-                    time.sleep(1)
                     print ">"*50
                     print "Begin remote run benchmark: %s" % benchmark
                     print "<"*50

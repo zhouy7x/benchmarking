@@ -2,7 +2,7 @@
 import os
 import argparse
 from config import *
-
+import utils
 
 help = """
 Manual to the script of %s, you need:
@@ -47,6 +47,10 @@ def run(bench, machine, node):
     print cmd_string
     os.system(cmd_string)
     print "run test %s over!" % bench
+    res_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
+        python data.py ;\"" % (machine['user'], machine['host'], bench)
+    res = utils.Shell(res_string)
+    return res.split()
 
 
 def show_data():
@@ -100,11 +104,19 @@ if __name__ == '__main__':
                 machine = machines[streams[machine_id]]
                 print machine
                 # 3. run benchmarks.
+                data = []
                 for benchmark in bench_list:
                     print ">"*50
                     print "Begin remote run benchmark: %s" % benchmark
                     print "<"*50
-                    run(benchmark, machine, NODE)
+                    res = run(benchmark, machine, NODE)
+                    print res
+                    for key, val in benchid_dict.iteritems():
+                        if str(val) == res[0]:
+                            res.insert(1, key)
+                            data.append(res)
+                            break
                 else:
                     print "all over."
+                    print data
                     # show_data()

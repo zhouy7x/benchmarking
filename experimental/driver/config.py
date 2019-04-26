@@ -9,6 +9,26 @@ benchs = [
     "node-dc-ssr",
     "all"
 ]
+benchid_dict = {
+    'start_stop_time': 1,
+    'startup_footprint': 2,
+    'require.new': 3,
+    'require.cached': 4,
+    'acme air throughput': 5,
+    'acme air latency': 6,
+    'acme air pre footprint': 7,
+    'acme air post footprint': 8,
+    'octane': 9,
+    'dc eis latency': 10,
+    'dc eis throughput': 11,
+    'webtooling': 12,
+    'dc eis pre footprint': 13,
+    'dc eis post footprint': 14,
+    'dc ssr latency': 15,
+    'dc ssr throughput': 16,
+    'dc ssr pre footprint': 17,
+    'dc ssr post footprint': 18,
+}
 branchs = [
     'master',
     'v4.x',
@@ -22,7 +42,8 @@ branchs = [
 streams = {
     0: 'all',
     1: 'intel xeon 8180',
-    2: 'amd 7601'
+    2: 'amd 7601',
+    3: 'local'
 }
 machines = {
     'intel xeon 8180': {
@@ -31,6 +52,10 @@ machines = {
     },
     'amd 7601': {
         "host": "amd-7601.sh.intel.com",
+        "user": "benchmark",
+    },
+    'local': {
+        "host": "localhost",
         "user": "benchmark",
     }
 }

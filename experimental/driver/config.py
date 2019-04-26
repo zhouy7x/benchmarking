@@ -42,8 +42,7 @@ branchs = [
 streams = {
     0: 'all',
     1: 'intel xeon 8180',
-    2: 'amd 7601',
-    3: 'lhj'
+    2: 'amd 7601'
 }
 machines = {
     'intel xeon 8180': {
@@ -52,10 +51,6 @@ machines = {
     },
     'amd 7601': {
         "host": "amd-7601.sh.intel.com",
-        "user": "benchmark",
-    },
-    'lhj': {
-        "host": "lhj.sh.intel.com",
         "user": "benchmark",
     }
 }

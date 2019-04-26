@@ -28,11 +28,18 @@ LOGDIR=$HOME/logs
 datename=$(date +%Y%m%d-%H%M%S)
 echo -e "Start time: `date`"
 # 1. start data-collect machine and nginx web server.
-#$HOME/node-v4.4.6-linux-x64/bin/node $HOME/benchmarking/tools/acceptResults/bridge.js > $LOGDIR/acceptResults/$datename.log 2>&1 &
+accept_pid="`ps aux | grep bridge.js | grep "/node " | grep -v grep | awk {'print $2'}`"
+echo $accept_pid
+if [ -z "$accept_pid" ] ;then
+    echo "start bridge.js...";
+    $HOME/node-v4.4.6-linux-x64/bin/node $HOME/benchmarking/tools/acceptResults/bridge.js > $LOGDIR/acceptResults/$datename.log 2>&1 &
+else
+    echo -e "bridge.js already exists, pid: $accept_pid";
+fi
 #TODO start nginx.
 
 # 2. run dostuff.py.
-python dostuff.py --branch=master --benchmark=all --postdata=True > $LOGDIR/dostuff-$datename.log 2>&1 
+python dostuff.py --machine=0 --benchmark=all --postdata=true > $LOGDIR/dostuff-$datename.log 2>&1
 
 # 3. run chartcron.sh, update web image and html.
 if [ -n "`cat $LOGDIR/dostuff-$datename.log | grep 'all over.'`" ] ;then

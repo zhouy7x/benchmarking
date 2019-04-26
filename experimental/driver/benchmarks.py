@@ -112,7 +112,7 @@ if __name__ == '__main__':
                     res = run(benchmark, machine, NODE)
                     for i in res:
                         j = i.split()
-                        print j
+                        # print j
                         for key, val in benchid_dict.iteritems():
                             if str(val) == j[0]:
                                 j.insert(1, key)

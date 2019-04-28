@@ -17,9 +17,6 @@ rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 * gcc=5.4
 * g++=5.4
 * java=1.7
-```shell
-
-```
 * bc (sudo apt-get install bc)
 * pip (sudo apt install python-pip)
 * numpy (pip install numpy)
@@ -27,6 +24,7 @@ rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 * requests (pip install requests)
 * eventlet (pip install eventlet)
 * subprocess32 (pip install subprocess32)
+* expect
 
 
 ## Data Machine

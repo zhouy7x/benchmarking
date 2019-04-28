@@ -3,12 +3,26 @@ if [ -z "$1" ]; then
 echo "Must pass in start, stop or status"
 exit
 fi
+
+function kill_mongo(){
+# kill mongo
+/usr/bin/expect << EOF
+set timeout -1
+spawn /etc/init.d/mongodb stop
+expect {
+        "Password" {send "123\r";}
+}
+expect eof
+EOF
+}
+
 DIR=`dirname $0`
 CURRENT_DIR=`cd $DIR;pwd`
 pushd $CURRENT_DIR
 
-case $1 in 
+case $1 in
 start)
+kill_mongo
 rm -rf database
 mkdir database
 rm mongodb.out

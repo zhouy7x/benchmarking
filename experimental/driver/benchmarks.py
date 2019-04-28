@@ -11,7 +11,7 @@ Manual to the script of %s, you need:
 
         --node="/home/benchmark/my-node-dir/node"
      
-     default is: "/home/benchmark/node-v12.0.0-pre/bin/node"
+     default is: "/home/benchmark/node-v12.0.0-pre/node"
    - An id of a test machine:
      
         --machine=1
@@ -103,6 +103,7 @@ if __name__ == '__main__':
             for machine_id in machine_list:
                 machine = machines[streams[machine_id]]
                 print machine
+
                 # 3. run benchmarks.
                 data = []
                 for benchmark in bench_list:
@@ -110,14 +111,15 @@ if __name__ == '__main__':
                     print "Begin remote run benchmark: %s" % benchmark
                     print "<"*50
                     res = run(benchmark, machine, NODE)
-                    for i in res:
-                        j = i.split()
-                        # print j
-                        for key, val in benchid_dict.iteritems():
-                            if str(val) == j[0]:
-                                j.insert(1, key)
-                                data.append(j)
-                                break
+                    if res:
+                        for i in res:
+                            j = i.split()
+                            # print j
+                            for key, val in benchid_dict.iteritems():
+                                if str(val) == j[0]:
+                                    j.insert(1, key)
+                                    data.append(j)
+                                    break
                 else:
                     print "all over."
                     print data

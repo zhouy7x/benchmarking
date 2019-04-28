@@ -245,7 +245,7 @@ if __name__ == '__main__':
         machine_list = []
         if not MACHINE_ID:
             for key in streams.keys():
-                if key:
+                if key > 0:
                     machine_list.append(key)
         else:
             machine_list.append(MACHINE_ID)

@@ -29,7 +29,7 @@ at startup or through cron.
 * vox.sh.intel.com
 
 ## Detailed Design
-### Test system
+### Driver system
 
 * (a) -> runs benchmark and publishes to benchmark data machine through simple post
 

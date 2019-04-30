@@ -11,7 +11,7 @@ Manual to the script of %s, you need:
 
         --node="/home/benchmark/my-node-dir/node"
      
-     default is: "/home/benchmark/node-v12.0.0-pre/node"
+     default is: "%s"
    - An id of a test machine:
      
         --machine=1
@@ -34,7 +34,7 @@ Examples:
      python benchmarks.py -b "node-dc-eis" -m 1 -n "/home/benchmark/node-hre/node"
      python benchmarks.py --benchmark=octane 
      python benchmarks.py -b web_tooling_benchmark --machine=2 --node="/home/benchmark/node-v10.15.3-LTS/node"  
-""" % __file__
+""" % (__file__, NODE)
 
 
 def usage():

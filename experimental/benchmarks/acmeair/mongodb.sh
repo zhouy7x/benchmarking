@@ -10,7 +10,7 @@ function kill_mongo(){
 set timeout -1
 spawn /etc/init.d/mongodb stop
 expect {
-        "Password" {send "123\r";}
+        "Password:" {send "123\r";}
 }
 expect eof
 EOF
@@ -22,7 +22,7 @@ pushd $CURRENT_DIR
 
 case $1 in
 start)
-kill_mongo
+#kill_mongo
 rm -rf database
 mkdir database
 rm mongodb.out

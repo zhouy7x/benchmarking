@@ -60,4 +60,4 @@ machines = {
     }
 }
 BRANCH = "master"
-NODE = "/home/benchmark/node-v12.0.0-pre/node"
+NODE = "/home/benchmark/node-v13.0.0-pre/node"

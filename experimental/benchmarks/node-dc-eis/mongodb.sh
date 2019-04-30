@@ -22,7 +22,7 @@ pushd $CURRENT_DIR
 
 case $1 in
 start)
-kill_mongo
+#kill_mongo
 rm -rf database
 mkdir database
 rm mongodb.out

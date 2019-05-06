@@ -26,8 +26,11 @@ rsync -a benchmark@vox.sh.intel.com:~/benchmarking /home/benchmark
 * subprocess32 (pip install subprocess32)
 * expect
 
+#### Setup for special benchmarks
+* acmeair: https://github.com/zhouy7x/benchmarking/tree/master/experimental/benchmarks/acmeair/README.md
 
-## Data Machine
+
+## Driver & Data Machine
 #### System
 * ubuntu 16.04 LTS
 

@@ -41,9 +41,9 @@ branchs = [
 ]
 streams = {
     0: 'all',
-    1: 'intel xeon 8180',
+    # 1: 'intel xeon 8180',
     2: 'amd 7601',
-    3: 'xeon 8180'
+    1: 'xeon 8180'
     }
 machines = {
     'intel xeon 8180': {

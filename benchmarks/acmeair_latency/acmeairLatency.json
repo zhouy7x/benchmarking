@@ -2,7 +2,7 @@
  "benchid": 6,
  "name": "acmeair Latency[lower is better]" ,
  "template": "../common/common_template1.html.base",
- "units": "ms",
+ "units": "us",
  "outputBase" : "acmeair_latency",
  "streams": [ {"streamid": 1, "name": "Intel(R) Xeon(R) Platinum 8180 CPU @ 2.50GHz", "color": "blue" },
               {"streamid": 2, "name": "AMD EPYC 7601 32-Core Processor @ 2.20GHz", "color": "red" }

@@ -30,7 +30,7 @@ if __name__ == '__main__':
         line = f.readline()
         while line:
              if "Geometric mean" in line:
-                  val = float(line.split()[-2])*100
+                  val = int(float(line.split()[-2])*100)
                   print val
                   arr.append(val)
              line = f.readline()

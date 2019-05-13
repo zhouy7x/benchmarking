@@ -23,6 +23,12 @@ Manual to the script of %s, you need:
         --benchmark="all"
      
      (special: "all" for run all other benchmarks one by one)
+   - An int number of run times of benchmark:
+
+        --runs=5
+     
+     default is: None
+     (Attention: for octane and web_tooling_benchmark only!!!)
    - A command in terminal, you can use simple name for each config("-b" 
      for "--benchmark", "-m" for "--machine", "-n" for "--node"):
 
@@ -33,7 +39,7 @@ Examples:
 
      python benchmarks.py -b "node-dc-eis" -m 1 -n "/home/benchmark/node-hre/node"
      python benchmarks.py --benchmark=octane 
-     python benchmarks.py -b web_tooling_benchmark --machine=2 --node="/home/benchmark/node-v10.15.3-LTS/node"  
+     python benchmarks.py -b web_tooling_benchmark --machine=2 --node="/home/benchmark/node-v10.15.3-LTS/node" --runs=5 
 """ % (__file__, NODE)
 
 
@@ -41,20 +47,27 @@ def usage():
     print parser.format_usage()
 
 
-def run(bench, machine, node):
-    cmd_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
-        NODE=%s bash run.sh ;\"" % (machine['user'], machine['host'], bench, node)
-    print cmd_string
-    os.system(cmd_string)
+def run(bench, machine, node, runs=None):
+    shell = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
+        NODE=%s " % (machine['user'], machine['host'], bench, node)
+    if runs:
+        shell += "RUNS=%s " % runs
+    shell += " bash run.sh ;\""
+    print shell
+    os.system(shell)
     print "run test %s over!" % bench
+
     res_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
         python data.py ;\"" % (machine['user'], machine['host'], bench)
     stat, res = utils.Shell(res_string)
     return res.splitlines()
 
 
-def show_data():
-    pass
+def show_data(data):
+    for i in data:
+        for j in i:
+            print j,
+        print ""
 
 
 if __name__ == '__main__':
@@ -66,15 +79,15 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--machine', type=int, default=1, choices=streams,
                         help="id of test machine in %s, default: 1" % streams)
     parser.add_argument('-n', '--node', type=str, default=NODE, help="default: %s. " % NODE)
+    parser.add_argument('-r', '--runs', type=int, default=None, help="RUNS of benchmark.")
     parser.add_argument('-c', '--config', type=str, default=None, help="config file.")  # test machine config.
 
     args = parser.parse_args()
     BENCHMARK = args.benchmark
     MACHINE_ID = args.machine
     NODE = args.node
+    RUNS = args.runs
 
-    # machine = machines[streams[MACHINE_ID]]
-    # print machine
     # 2. check params.
     # 2.1 check NODE.
     # 2.2 check BENCHMARK.
@@ -110,7 +123,7 @@ if __name__ == '__main__':
                     print ">"*50
                     print "Begin remote run benchmark: %s" % benchmark
                     print "<"*50
-                    res = run(benchmark, machine, NODE)
+                    res = run(benchmark, machine, NODE, RUNS)
                     if res:
                         for i in res:
                             j = i.split()
@@ -122,5 +135,6 @@ if __name__ == '__main__':
                                     break
                 else:
                     print "all over."
-                    print data
-                    # show_data()
+                    # print data
+                    show_data(data)
+

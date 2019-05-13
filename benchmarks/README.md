@@ -17,7 +17,8 @@ at startup or through cron.
 
 
 ## System Configurations
-![images](https://github.com/zhouy7x/benchmarking/blob/master/system-machine.png)
+* ![images](https://github.com/zhouy7x/benchmarking/blob/master/system-machine.png)
+
 1.driver machine: 
 * vox.sh.intel.com
 

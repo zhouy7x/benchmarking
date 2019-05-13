@@ -89,7 +89,7 @@ def Shell(string):
     print(string)
     status, output = commands.getstatusoutput(string)
     print(output)
-    return output
+    return status, output
 
 
 def config_get_default(section, name, default=None):

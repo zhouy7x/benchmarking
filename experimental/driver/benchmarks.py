@@ -49,7 +49,7 @@ def run(bench, machine, node):
     print "run test %s over!" % bench
     res_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \
         python data.py ;\"" % (machine['user'], machine['host'], bench)
-    res = utils.Shell(res_string)
+    stat, res = utils.Shell(res_string)
     return res.splitlines()
 
 

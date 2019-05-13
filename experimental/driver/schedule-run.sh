@@ -39,13 +39,9 @@ fi
 #TODO start nginx.
 
 # 2. run dostuff.py.
-python dostuff.py --machine=0 --benchmark=all --postdata=true > $LOGDIR/dostuff-$datename.log 2>&1
-
-# 3. run chartcron.sh, update web image and html.
-if [ -n "`cat $LOGDIR/dostuff-$datename.log | grep 'all over.'`" ] ;then
-    echo "get keyword 'all over.', run chartcron.sh... ";
-    bash $HOME/benchmarking/tools/chartGen/chartcron.sh;
-fi
+python dostuff.py --machine=0 --benchmark=all --postdata=true > $LOGDIR/dostuff-$datename.log 2>&1 &
+#python dostuff.py --machine=1 --benchmark=start_stop_time > $LOGDIR/dostuff-$datename.log 2>&1 &
+wait
 
 # remove run lock.
 rm /tmp/v8onxeon-daemon

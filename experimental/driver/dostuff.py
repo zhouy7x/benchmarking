@@ -6,6 +6,7 @@ from builders import get_latest_commit_id
 from benchmarks import run
 import utils
 from config import *
+from update import run_update
 
 help = """
 Manual to the script of %s, you need:
@@ -174,6 +175,7 @@ def main(machine_id):
         if POSTDATA:
             print "### now post results of benchmark %s ###" % benchmark
             postdata(benchmark, machine_id, COMMIT_ID)
+            run_update()
     else:
         return "all over."
 

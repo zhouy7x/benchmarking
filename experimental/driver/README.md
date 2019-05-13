@@ -85,4 +85,6 @@ done.
 
 3. dostuff.py --help message.\
 done.
-4. node-dc-eis.sh -- add a kill mongod process.
+4. node-dc-eis.sh -- add a kill root mongodb process.
+
+5. refactor benchmarks.py.

@@ -17,15 +17,18 @@ at startup or through cron.
 
 
 ## System Configurations
-
+![images](https://github.com/zhouy7x/benchmarking/blob/master/system-machine.png)
 1.driver machine: 
 * vox.sh.intel.com
 
-2.test machine:
+2.test machines:
 * v8onxeon-8180.sh.intel.com
 * amd-7601.sh.intel.com
     
-3.report machine
+3. data machine:
+* vox.sh.intel.com
+
+4.report machine
 * vox.sh.intel.com
 
 ## Detailed Design

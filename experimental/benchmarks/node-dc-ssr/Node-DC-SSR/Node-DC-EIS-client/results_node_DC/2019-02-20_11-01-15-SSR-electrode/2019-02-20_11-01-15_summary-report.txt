@@ -1,0 +1,73 @@
+
+====Report Summary====
+Primary Metrics:
+Throughput = 58.25 req/sec
+99 percentile = 5.644 sec
+Detailed summary:
+Min Response time = 0.466 sec
+Mean Response time = 3.336 sec
+Max Response time = 6.866 sec
+95 percentile = 5.314 sec
+
+====Client information====
+Server url is : http://lhj.sh.intel.com:3000/
+Runtime interval:100  (Default value = 60s)
+# requests    :10000  (Default value = 10000)
+# concurrency    :200  (Default value = 200)
+#  URLs  :100  (Default value = 100)
+# Use HTML: True (Default value = False)
+# Extra HTTP headers:
+#  User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36
+
+====System under test====
+====Application====
+App Mode: SSR-electrode
+App Version Node-DC-SSR-electrode v0.8.0
+
+====SUT Hardware Details====
+Architecture: x64
+Endianness: LE
+Total memory: 33548894208 bytes
+Free mempry available: 7142625280 bytes
+CPU model: Intel(R) Core(TM) i7-5960X CPU @ 3.00GHz
+CPU speed: 2072 MHz
+Time spent in sys mode: 4880600 ms
+Time spent in idle mode: 4269572800 ms
+Time spent in user mode: 9810400 ms
+Time spent in irq mode: 0 ms
+Time spent in nice mode: 46000 ms
+
+====SUT Operating System Details====
+Operating System Platform: linux
+Operating System Release: 4.15.0-45-generic
+System uptime: 428729
+Operating System type: Linux
+
+====SUT Version Details of Node.js and dependencies====
+Node version: 12.0.0-pre
+Zlib version: 1.2.11
+V8 version: 7.1.302.33-node.10
+UV version: 1.25.0
+Http Parser version: 2.8.0
+OpenSSL version: 1.1.1a
+Ares version: 1.15.0
+Modules version: 68
+ICU version: 63.1
+
+====Validation and Error Summary====
+Timeout Error = 0
+Connection Error = 0
+Http Error = 0
+Bad Url Error = 0
+Static posts = 0
+
+====Validation Report====
+URL Validation:
+Endpoints:
+ GET: count/10000/15
+--------------------------------------
+Requests Validation:
+Total runtime duration: 100
+Total number of get requests: 9121
+Total number of post requests: 0
+Total number of delete requests: 0

@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+    - "8"
+    - "9"
+    - "10"
+script:
+    - npm run build
+    - npm test
+    - node dist/cli.js
+sudo: false
+branches:
+    only:
+    - master
+
+deploy:
+    local_dir: dist
+    email: bmeurer@chromium.org
+    name: Benedikt Meurer
+    project_name: web-tooling-benchmark
+    provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+    on:
+        branch: master

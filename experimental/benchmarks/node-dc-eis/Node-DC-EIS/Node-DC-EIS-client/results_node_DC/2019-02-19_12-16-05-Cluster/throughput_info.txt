@@ -1,0 +1,7 @@
+Concurrency is:100
+Number of processess:0
+Measuring time window start time is:1550549797.57
+Measuring time end time is:1550550097.57
+Elapsed time is:300.00120616
+Total measuring time requests:239057
+Throughput is:796.85

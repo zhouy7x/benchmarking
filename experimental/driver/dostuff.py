@@ -82,13 +82,14 @@ def usage():
 def rsync_to_test_machine(src, dest):
     path_list = [
         (src + "/node", dest),
+        (LOCAL_BASE_DIR + "/", REMOTE_BASE_DIR),
     ]
 
     for path in path_list:
         create_node_dir_cmd = 'ssh %s@%s "mkdir -p %s"' % (machine["user"], machine["host"], dest)
         print create_node_dir_cmd
         os.system(create_node_dir_cmd)
-        rsync_cmd = "rsync -a %s %s@%s:%s" % (path[0], machine["user"], machine["host"], path[1])
+        rsync_cmd = "rsync -aP %s %s@%s:%s" % (path[0], machine["user"], machine["host"], path[1])
         print rsync_cmd
         if not os.system(rsync_cmd):
             print "rsync succeed!"
@@ -175,8 +176,9 @@ def main(machine_id):
         if POSTDATA:
             print "### now post results of benchmark %s ###" % benchmark
             postdata(benchmark, machine_id, COMMIT_ID)
-            run_update()
     else:
+        if POSTDATA:
+            run_update()
         return "all over."
 
 

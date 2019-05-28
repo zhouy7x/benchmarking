@@ -11,12 +11,12 @@ if __name__ == '__main__':
         line = f.readline()
         while line:
              if "Geometric mean" in line:
-                  val = int(float(line.split()[-2])*100)
+                  val = float(line.split()[-2])*100
                   print val
                   arr.append(val)
              line = f.readline()
         f.close()
-        res = np.median(arr)
+        res = int(np.median(arr))
         if res:
              bench_name = 'webtooling'
              print benchid_dict[bench_name], res

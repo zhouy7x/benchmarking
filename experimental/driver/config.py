@@ -61,3 +61,5 @@ machines = {
 }
 BRANCH = "master"
 NODE = "/home/benchmark/node-v13.0.0-pre/node"
+LOCAL_BASE_DIR = "/home/benchmark/benchmarking"
+REMOTE_BASE_DIR = "/home/benchmark/benchmarking"

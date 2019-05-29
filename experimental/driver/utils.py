@@ -14,7 +14,7 @@ config = None
 RepoPath = None
 BenchmarkPath = None
 DriverPath = None
-Timeout = 15*60
+Timeout = 30*60
 PythonName = None
 Includes = None
 Excludes = None
@@ -123,9 +123,9 @@ def RunTimedCheckOutput(args, env=os.environ.copy(), timeout=None, **popenargs):
     if timeout is None:
         timeout = Timeout
     if type(args) == list:
-        print('Running: "'+ '" "'.join(args) + '" with timeout: ' + str(timeout)+'s')
+        print('Running: "' + '" "'.join(args) + '" with timeout: ' + str(timeout)+'s')
     elif type(args) == str:
-        print('Running: "'+ args + '" with timeout: ' + str(timeout) + 's')
+        print('Running: "' + args + '" with timeout: ' + str(timeout) + 's')
     else:
         print('Running: ' + args)
     try:

@@ -9,7 +9,7 @@ if __name__ == '__main__':
             data = f.readlines()
             # print data
         data = map(lambda x: x[:x.rfind('.')].split(','), data)
-        print data
+        # print data
 
         if not data:
             print "no data, post data failed!"

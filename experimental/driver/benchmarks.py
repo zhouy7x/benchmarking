@@ -53,8 +53,9 @@ def run(bench, machine, node, runs=None):
     if runs:
         shell += "RUNS=%s " % runs
     shell += " bash run.sh ;\""
-    print shell
-    os.system(shell)
+    # print shell
+    # os.system(shell)
+    utils.RunTimedCheckOutput(shell)
     print "run test %s over!" % bench
 
     res_string = "ssh %s@%s \"cd /home/benchmark/benchmarking/experimental/benchmarks/%s ; \

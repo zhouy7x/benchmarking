@@ -82,7 +82,7 @@ def usage():
 def rsync_to_test_machine(src, dest):
     path_list = [
         (src + "/node", dest),
-        (LOCAL_BASE_DIR + "/", REMOTE_BASE_DIR),
+        # (LOCAL_BASE_DIR + "/", REMOTE_BASE_DIR),
     ]
 
     for path in path_list:

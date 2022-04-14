@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "async": "0.2.10",
+    "async": "3.2.2",
     "body-parser": "1.11.x",
     "cassandra-driver": "2.0.x",
     "circuit-breaker": "0.0.4",
